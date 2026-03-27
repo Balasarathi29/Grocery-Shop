@@ -1,4 +1,4 @@
-function ProductCard({ product }) {
+function ProductCard({ product, onAddToCart }) {
   const discount = Math.round(
     ((product.mrp - product.price) / product.mrp) * 100,
   );
@@ -35,7 +35,10 @@ function ProductCard({ product }) {
         </span>
       </div>
 
-      <button className="mt-4 w-full rounded-xl bg-brand-700 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-800">
+      <button
+        onClick={() => onAddToCart(product)}
+        className="mt-4 w-full rounded-xl bg-brand-700 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-800"
+      >
         Add to Cart
       </button>
     </article>

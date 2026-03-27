@@ -2,7 +2,7 @@ import Container from "../layout/Container";
 import SectionTitle from "../ui/SectionTitle";
 import ProductCard from "../product/ProductCard";
 
-function ProductSection({ products }) {
+function ProductSection({ products, onAddToCart }) {
   return (
     <section className="py-10">
       <Container>
@@ -14,7 +14,11 @@ function ProductSection({ products }) {
 
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
+            <ProductCard
+              key={product.id}
+              product={product}
+              onAddToCart={onAddToCart}
+            />
           ))}
         </div>
       </Container>
