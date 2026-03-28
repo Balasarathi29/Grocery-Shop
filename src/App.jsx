@@ -1,19 +1,23 @@
-import { useState } from "react";
 import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
-import HeroSection from "./components/home/HeroSection";
-import CategorySection from "./components/home/CategorySection";
-import ProductSection from "./components/home/ProductSection";
-import CartPage from "./components/cart/CartPage";
-import ProductDetailsPage from "./components/product/ProductDetailsPage";
 import NavOptions from "./components/layout/NavOptions";
+import PageRouter from "./components/pages/PageRouter";
 import useCart from "./hooks/useCart";
+import useAppNavigation from "./hooks/useAppNavigation";
 import { categories, featuredProducts } from "./data/storeData";
 
 function App() {
-  const [activePage, setActivePage] = useState("home");
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [showNavOptions, setShowNavOptions] = useState(false);
+  const {
+    activePage,
+    selectedProduct,
+    showNavOptions,
+    navigateTo,
+    openProductDetail,
+    backToHome,
+    openMenu,
+    closeMenu,
+  } = useAppNavigation();
+
   const {
     cartItems,
     cartCount,
@@ -24,61 +28,33 @@ function App() {
     clearCart,
   } = useCart();
 
-  const handleProductClick = (product) => {
-    setSelectedProduct(product);
-    setActivePage("productDetail");
-  };
-
-  const handleBackToHome = () => {
-    setSelectedProduct(null);
-    setActivePage("home");
-  };
-
   return (
     <div className="min-h-screen bg-stone-50 text-slate-900">
       <Navbar
         activePage={activePage}
         cartCount={cartCount}
-        onHomeClick={() => setActivePage("home")}
-        onCartClick={() => setActivePage("cart")}
-        onMenuClick={() => setShowNavOptions(true)}
+        onNavigate={navigateTo}
+        onMenuClick={openMenu}
       />
       <main>
-        {activePage === "home" ? (
-          <>
-            <HeroSection />
-            <CategorySection categories={categories} />
-            <ProductSection
-              products={featuredProducts}
-              onAddToCart={addToCart}
-              onProductClick={handleProductClick}
-            />
-          </>
-        ) : activePage === "cart" ? (
-          <CartPage
-            cartItems={cartItems}
-            onContinueShopping={() => setActivePage("home")}
-            onIncreaseQuantity={increaseQuantity}
-            onDecreaseQuantity={decreaseQuantity}
-            onRemoveItem={removeItem}
-            onClearCart={clearCart}
-          />
-        ) : activePage === "productDetail" && selectedProduct ? (
-          <ProductDetailsPage
-            product={selectedProduct}
-            onBack={handleBackToHome}
-            onAddToCart={addToCart}
-          />
-        ) : null}
+        <PageRouter
+          activePage={activePage}
+          selectedProduct={selectedProduct}
+          categories={categories}
+          featuredProducts={featuredProducts}
+          cartItems={cartItems}
+          addToCart={addToCart}
+          increaseQuantity={increaseQuantity}
+          decreaseQuantity={decreaseQuantity}
+          removeItem={removeItem}
+          clearCart={clearCart}
+          onNavigate={navigateTo}
+          onProductClick={openProductDetail}
+          onBackToHome={backToHome}
+        />
       </main>
       {showNavOptions && (
-        <NavOptions
-          onNavigate={(page) => {
-            setActivePage(page);
-            setShowNavOptions(false);
-          }}
-          onClose={() => setShowNavOptions(false)}
-        />
+        <NavOptions onNavigate={navigateTo} onClose={closeMenu} />
       )}
       <Footer />
     </div>

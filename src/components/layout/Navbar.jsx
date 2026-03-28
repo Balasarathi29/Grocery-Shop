@@ -1,17 +1,12 @@
 import Container from "./Container";
+import { desktopNavItems, PAGE_KEYS } from "../../constants/navigation";
 
-function Navbar({
-  activePage,
-  cartCount,
-  onHomeClick,
-  onCartClick,
-  onMenuClick,
-}) {
+function Navbar({ activePage, cartCount, onNavigate, onMenuClick }) {
   return (
     <header className="sticky top-0 z-40 border-b border-brand-100/70 bg-stone-50/95 backdrop-blur">
       <Container className="flex h-16 items-center justify-between">
         <button
-          onClick={onHomeClick}
+          onClick={() => onNavigate(PAGE_KEYS.HOME)}
           className="flex items-center gap-3 text-left"
           aria-label="Go to home page"
         >
@@ -27,23 +22,17 @@ function Navbar({
         </button>
 
         <nav className="hidden items-center gap-8 text-sm font-semibold text-slate-700 md:flex">
-          <button
-            onClick={onHomeClick}
-            className={`transition hover:text-brand-700 ${
-              activePage === "home" ? "text-brand-700" : ""
-            }`}
-          >
-            Home
-          </button>
-          <a href="#" className="transition hover:text-brand-700">
-            Categories
-          </a>
-          <a href="#" className="transition hover:text-brand-700">
-            Deals
-          </a>
-          <a href="#" className="transition hover:text-brand-700">
-            Contact
-          </a>
+          {desktopNavItems.map((item) => (
+            <button
+              key={item.page}
+              onClick={() => onNavigate(item.page)}
+              className={`transition hover:text-brand-700 ${
+                activePage === item.page ? "text-brand-700" : ""
+              }`}
+            >
+              {item.label}
+            </button>
+          ))}
         </nav>
 
         <div className="flex items-center gap-3">
@@ -55,7 +44,7 @@ function Navbar({
             ☰
           </button>
           <button
-            onClick={onCartClick}
+            onClick={() => onNavigate(PAGE_KEYS.CART)}
             className={`rounded-xl px-4 py-2 text-sm font-semibold text-white transition ${
               activePage === "cart"
                 ? "bg-brand-900"
