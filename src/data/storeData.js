@@ -16,6 +16,23 @@ export const featuredProducts = [
     mrp: 60,
     badge: "18% Off",
     palette: "from-red-100 to-orange-100",
+    description:
+      "Premium quality farm fresh tomatoes sourced directly from local farmers. Rich in lycopene and Vitamin C.",
+    specifications: [
+      { label: "Origin", value: "Local Farm, Fresh Harvest" },
+      { label: "Freshness", value: "Picked Today" },
+      { label: "Storage", value: "Refrigerate for 5-7 days" },
+      { label: "Certifications", value: "Chemical Free" },
+    ],
+    highlights: [
+      "100% Natural",
+      "No Pesticides",
+      "Fresh from Farm",
+      "Rich in Vitamins",
+    ],
+    inStock: true,
+    rating: 4.8,
+    reviews: 234,
   },
   {
     id: 2,
@@ -25,6 +42,23 @@ export const featuredProducts = [
     mrp: 90,
     badge: "Bestseller",
     palette: "from-yellow-100 to-amber-100",
+    description:
+      "Golden ripe premium bananas perfect for everyday nutrition. Rich source of potassium and natural energy.",
+    specifications: [
+      { label: "Ripeness", value: "Golden Ripe" },
+      { label: "Origin", value: "Select Plantations" },
+      { label: "Shelf Life", value: "3-5 days at room temperature" },
+      { label: "Quantity", value: "12 pieces per bunch" },
+    ],
+    highlights: [
+      "High in Potassium",
+      "Natural Energy Boost",
+      "Perfect for Smoothies",
+      "Great for Kids",
+    ],
+    inStock: true,
+    rating: 4.9,
+    reviews: 512,
   },
   {
     id: 3,
@@ -34,6 +68,23 @@ export const featuredProducts = [
     mrp: 70,
     badge: "Daily Use",
     palette: "from-sky-100 to-cyan-100",
+    description:
+      "Pure A2 cow milk with superior digestibility. Sourced from healthy cows raised on organic feed.",
+    specifications: [
+      { label: "Cow Type", value: "A2 Desi Breed" },
+      { label: "Processing", value: "Chilled & Pasteurized" },
+      { label: "Fat Content", value: "3.5-4% Natural Fat" },
+      { label: "Best Before", value: "3 days from packing" },
+    ],
+    highlights: [
+      "Easy to Digest",
+      "Rich in Calcium",
+      "No Additives",
+      "Farm Fresh",
+    ],
+    inStock: true,
+    rating: 4.7,
+    reviews: 345,
   },
   {
     id: 4,
@@ -43,6 +94,23 @@ export const featuredProducts = [
     mrp: 289,
     badge: "Healthy Choice",
     palette: "from-orange-100 to-yellow-100",
+    description:
+      "100% pure cold-pressed groundnut oil with no additives. Rich in Vitamin E and heart-healthy fats.",
+    specifications: [
+      { label: "Extraction Method", value: "Cold Press" },
+      { label: "Purity", value: "100% Pure" },
+      { label: "Smoke Point", value: "450°F (High Heat Safe)" },
+      { label: "Shelf Life", value: "18 months from manufacturing" },
+    ],
+    highlights: [
+      "Cold Pressed",
+      "No Additives",
+      "Rich in Antioxidants",
+      "Heart Healthy",
+    ],
+    inStock: true,
+    rating: 4.6,
+    reviews: 189,
   },
   {
     id: 5,
@@ -52,6 +120,18 @@ export const featuredProducts = [
     mrp: 449,
     badge: "Top Rated",
     palette: "from-lime-100 to-emerald-100",
+    description:
+      "Premium long-grain Sona Masoori rice, light and fluffy. Perfect for daily cooking and special occasions.",
+    specifications: [
+      { label: "Rice Type", value: "Long Grain Basmati" },
+      { label: "Grade", value: "Premium Grade" },
+      { label: "Moisture", value: "Below 12%" },
+      { label: "Package", value: "5 kg sealed bag" },
+    ],
+    highlights: ["Long Grain", "Aromatic", "Non-Sticky", "Easy to Cook"],
+    inStock: true,
+    rating: 4.8,
+    reviews: 423,
   },
   {
     id: 6,
@@ -61,5 +141,22 @@ export const featuredProducts = [
     mrp: 239,
     badge: "New",
     palette: "from-amber-100 to-orange-100",
+    description:
+      "Natural crunchy peanut butter made from roasted peanuts. No added sugar or palm oil.",
+    specifications: [
+      { label: "Ingredients", value: "100% Roasted Peanuts" },
+      { label: "Texture", value: "Crunchy with Whole Peanuts" },
+      { label: "Additives", value: "No Sugar, No Palm Oil" },
+      { label: "Shelf Life", value: "12 months unopened" },
+    ],
+    highlights: [
+      "No Added Sugar",
+      "Rich Protein",
+      "Crunchy Texture",
+      "All Natural",
+    ],
+    inStock: true,
+    rating: 4.7,
+    reviews: 156,
   },
 ];

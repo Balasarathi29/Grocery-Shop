@@ -1,6 +1,12 @@
 import Container from "./Container";
 
-function Navbar({ activePage, cartCount, onHomeClick, onCartClick }) {
+function Navbar({
+  activePage,
+  cartCount,
+  onHomeClick,
+  onCartClick,
+  onMenuClick,
+}) {
   return (
     <header className="sticky top-0 z-40 border-b border-brand-100/70 bg-stone-50/95 backdrop-blur">
       <Container className="flex h-16 items-center justify-between">
@@ -40,17 +46,26 @@ function Navbar({ activePage, cartCount, onHomeClick, onCartClick }) {
           </a>
         </nav>
 
-        <button
-          onClick={onCartClick}
-          className={`rounded-xl px-4 py-2 text-sm font-semibold text-white transition ${
-            activePage === "cart"
-              ? "bg-brand-900"
-              : "bg-brand-700 hover:bg-brand-800"
-          }`}
-          aria-label="Open cart page"
-        >
-          Cart ({cartCount})
-        </button>
+        <div className="flex items-center gap-3">
+          <button
+            onClick={onMenuClick}
+            className="rounded-xl bg-brand-100 px-3 py-2 text-lg transition hover:bg-brand-200 md:hidden"
+            aria-label="Open menu"
+          >
+            ☰
+          </button>
+          <button
+            onClick={onCartClick}
+            className={`rounded-xl px-4 py-2 text-sm font-semibold text-white transition ${
+              activePage === "cart"
+                ? "bg-brand-900"
+                : "bg-brand-700 hover:bg-brand-800"
+            }`}
+            aria-label="Open cart page"
+          >
+            Cart ({cartCount})
+          </button>
+        </div>
       </Container>
     </header>
   );

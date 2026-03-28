@@ -2,7 +2,7 @@ import Container from "../layout/Container";
 import SectionTitle from "../ui/SectionTitle";
 import ProductCard from "../product/ProductCard";
 
-function ProductSection({ products, onAddToCart }) {
+function ProductSection({ products, onAddToCart, onProductClick }) {
   return (
     <section className="py-10">
       <Container>
@@ -18,6 +18,7 @@ function ProductSection({ products, onAddToCart }) {
               key={product.id}
               product={product}
               onAddToCart={onAddToCart}
+              onProductClick={onProductClick}
             />
           ))}
         </div>
