@@ -2,6 +2,7 @@ export const featuredProducts = [
   {
     id: 1,
     name: "Farm Fresh Tomato",
+    categoryIds: ["veg"],
     unit: "1 kg",
     price: 48,
     mrp: 60,
@@ -28,6 +29,7 @@ export const featuredProducts = [
   {
     id: 2,
     name: "Premium Banana",
+    categoryIds: ["fruits"],
     unit: "12 pcs",
     price: 72,
     mrp: 90,
@@ -54,6 +56,7 @@ export const featuredProducts = [
   {
     id: 3,
     name: "A2 Cow Milk",
+    categoryIds: ["dairy", "drinks"],
     unit: "1 litre",
     price: 64,
     mrp: 70,
@@ -80,6 +83,7 @@ export const featuredProducts = [
   {
     id: 4,
     name: "Cold Press Groundnut Oil",
+    categoryIds: ["staples"],
     unit: "1 litre",
     price: 249,
     mrp: 289,
@@ -106,6 +110,7 @@ export const featuredProducts = [
   {
     id: 5,
     name: "Sona Masoori Rice",
+    categoryIds: ["staples"],
     unit: "5 kg",
     price: 389,
     mrp: 449,
@@ -127,6 +132,7 @@ export const featuredProducts = [
   {
     id: 6,
     name: "Crunchy Peanut Butter",
+    categoryIds: ["snacks"],
     unit: "500 g",
     price: 199,
     mrp: 239,

@@ -15,6 +15,7 @@ function PageRouter({
   selectedProduct,
   categories,
   featuredProducts,
+  selectedCategoryId,
   cartItems,
   addToCart,
   increaseQuantity,
@@ -24,6 +25,8 @@ function PageRouter({
   onNavigate,
   onProductClick,
   onBackToHome,
+  onCategorySelect,
+  onClearCategory,
 }) {
   switch (activePage) {
     case PAGE_KEYS.HOME:
@@ -31,6 +34,9 @@ function PageRouter({
         <HomePage
           categories={categories}
           products={featuredProducts}
+          selectedCategoryId={selectedCategoryId}
+          onCategorySelect={onCategorySelect}
+          onClearCategory={onClearCategory}
           onAddToCart={addToCart}
           onProductClick={onProductClick}
         />
@@ -52,7 +58,14 @@ function PageRouter({
       return (
         <CategoriesPage
           categories={categories}
-          onExploreProducts={() => onNavigate(PAGE_KEYS.HOME)}
+          onExploreProducts={(categoryId = "all") => {
+            if (categoryId === "all") {
+              onClearCategory();
+            } else {
+              onCategorySelect(categoryId);
+            }
+            onNavigate(PAGE_KEYS.HOME);
+          }}
         />
       );
 
@@ -87,6 +100,9 @@ function PageRouter({
           <HomePage
             categories={categories}
             products={featuredProducts}
+            selectedCategoryId={selectedCategoryId}
+            onCategorySelect={onCategorySelect}
+            onClearCategory={onClearCategory}
             onAddToCart={addToCart}
             onProductClick={onProductClick}
           />
@@ -106,6 +122,9 @@ function PageRouter({
         <HomePage
           categories={categories}
           products={featuredProducts}
+          selectedCategoryId={selectedCategoryId}
+          onCategorySelect={onCategorySelect}
+          onClearCategory={onClearCategory}
           onAddToCart={addToCart}
           onProductClick={onProductClick}
         />

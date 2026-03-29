@@ -8,6 +8,7 @@ function PageShell({
   cards = [],
   primaryAction,
   secondaryAction,
+  onCardClick,
 }) {
   return (
     <section className="py-10 sm:py-12">
@@ -50,8 +51,13 @@ function PageShell({
         <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {cards.map((card) => (
             <article
-              key={card.title}
-              className="rounded-2xl border border-brand-100 bg-white p-5 shadow-soft"
+              key={card.id || card.title}
+              onClick={onCardClick ? () => onCardClick(card) : undefined}
+              className={`rounded-2xl border border-brand-100 bg-white p-5 shadow-soft ${
+                onCardClick
+                  ? "cursor-pointer transition hover:-translate-y-0.5 hover:border-brand-300"
+                  : ""
+              }`}
             >
               <p className="text-xs font-bold uppercase tracking-[0.16em] text-brand-700">
                 {card.kicker}

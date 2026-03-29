@@ -2,6 +2,7 @@ import PageShell from "./PageShell";
 
 function CategoriesPage({ categories, onExploreProducts }) {
   const cards = categories.map((category) => ({
+    id: category.id,
     kicker: "Category",
     title: category.name,
     description:
@@ -15,7 +16,11 @@ function CategoriesPage({ categories, onExploreProducts }) {
       subtitle="Browse carefully curated collections with fresh arrivals, weekly updates, and neighborhood pricing."
       gradient="from-emerald-100 via-white to-lime-100"
       cards={cards}
-      primaryAction={{ label: "Explore Products", onClick: onExploreProducts }}
+      primaryAction={{
+        label: "Explore Products",
+        onClick: () => onExploreProducts("all"),
+      }}
+      onCardClick={(card) => onExploreProducts(card.id)}
     />
   );
 }

@@ -1,7 +1,7 @@
 import Container from "../layout/Container";
 import SectionTitle from "../ui/SectionTitle";
 
-function CategorySection({ categories }) {
+function CategorySection({ categories, selectedCategoryId, onCategorySelect }) {
   return (
     <section className="py-10">
       <Container>
@@ -15,7 +15,12 @@ function CategorySection({ categories }) {
           {categories.map((category) => (
             <button
               key={category.id}
-              className="group rounded-2xl border border-brand-100 bg-white px-5 py-4 text-left shadow-soft transition hover:-translate-y-0.5 hover:border-brand-300"
+              onClick={() => onCategorySelect(category.id)}
+              className={`group rounded-2xl border px-5 py-4 text-left shadow-soft transition hover:-translate-y-0.5 hover:border-brand-300 ${
+                selectedCategoryId === category.id
+                  ? "border-brand-300 bg-brand-50"
+                  : "border-brand-100 bg-white"
+              }`}
             >
               <p className="text-sm font-semibold text-slate-700">
                 {category.name}

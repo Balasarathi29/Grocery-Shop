@@ -4,6 +4,7 @@ import NavOptions from "./components/layout/NavOptions";
 import PageRouter from "./components/pages/PageRouter";
 import useCart from "./hooks/useCart";
 import useAppNavigation from "./hooks/useAppNavigation";
+import useCategoryFilter from "./hooks/useCategoryFilter";
 import { categories, featuredProducts } from "./data/storeData";
 
 function App() {
@@ -28,6 +29,18 @@ function App() {
     clearCart,
   } = useCart();
 
+  const {
+    selectedCategoryId,
+    filteredProducts,
+    selectCategory,
+    clearCategory,
+  } = useCategoryFilter(featuredProducts);
+
+  const handleCategorySelect = (categoryId) => {
+    selectCategory(categoryId);
+    navigateTo("home");
+  };
+
   return (
     <div className="min-h-screen bg-stone-50 text-slate-900">
       <Navbar
@@ -41,7 +54,8 @@ function App() {
           activePage={activePage}
           selectedProduct={selectedProduct}
           categories={categories}
-          featuredProducts={featuredProducts}
+          featuredProducts={filteredProducts}
+          selectedCategoryId={selectedCategoryId}
           cartItems={cartItems}
           addToCart={addToCart}
           increaseQuantity={increaseQuantity}
@@ -51,6 +65,8 @@ function App() {
           onNavigate={navigateTo}
           onProductClick={openProductDetail}
           onBackToHome={backToHome}
+          onCategorySelect={handleCategorySelect}
+          onClearCategory={clearCategory}
         />
       </main>
       {showNavOptions && (
