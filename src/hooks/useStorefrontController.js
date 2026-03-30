@@ -24,6 +24,7 @@ function useStorefrontController() {
     cart,
     catalog: {
       categories,
+      allProducts: featuredProducts,
       products: catalogFilter.filteredProducts,
       selectedCategoryId: catalogFilter.selectedCategoryId,
     },

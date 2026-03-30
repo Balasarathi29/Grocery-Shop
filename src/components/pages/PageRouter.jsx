@@ -15,6 +15,7 @@ function PageRouter({
   activePage,
   selectedProduct,
   categories,
+  allProducts,
   featuredProducts,
   selectedCategoryId,
   cartItems,
@@ -48,19 +49,22 @@ function PageRouter({
     case PAGE_KEYS.ESSENTIALS:
       return (
         <EssentialsPage
-          products={featuredProducts}
+          products={allProducts}
           onProductClick={onProductClick}
           onAddToCart={addToCart}
           onViewOffers={() => onNavigate(PAGE_KEYS.OFFERS)}
+          onBack={() => onNavigate(PAGE_KEYS.HOME)}
         />
       );
 
     case PAGE_KEYS.OFFERS:
       return (
         <OffersPage
-          products={featuredProducts}
+          products={allProducts}
           onProductClick={onProductClick}
+          onAddToCart={addToCart}
           onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
+          onBack={() => onNavigate(PAGE_KEYS.HOME)}
         />
       );
 
@@ -94,9 +98,11 @@ function PageRouter({
     case PAGE_KEYS.DEALS:
       return (
         <OffersPage
-          products={featuredProducts}
+          products={allProducts}
           onProductClick={onProductClick}
+          onAddToCart={addToCart}
           onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
+          onBack={() => onNavigate(PAGE_KEYS.HOME)}
         />
       );
 

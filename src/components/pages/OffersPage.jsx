@@ -1,6 +1,14 @@
-import PageShell from "./PageShell";
+import Container from "../layout/Container";
+import OfferHeroBanner from "../offers/OfferHeroBanner";
+import OfferDealCard from "../offers/OfferDealCard";
 
-function OffersPage({ products, onProductClick, onShopEssentials }) {
+function OffersPage({
+  products,
+  onProductClick,
+  onAddToCart,
+  onShopEssentials,
+  onBack,
+}) {
   const dealCards = [...products]
     .map((product) => {
       const savings = product.mrp - product.price;
@@ -9,28 +17,63 @@ function OffersPage({ products, onProductClick, onShopEssentials }) {
       return {
         id: product.id,
         product,
-        kicker: `${discount}% OFF`,
-        title: product.name,
-        description: `Now Rs. ${product.price} (${product.unit}) | You save Rs. ${savings}`,
+        savings,
+        discount,
       };
     })
-    .sort(
-      (a, b) =>
-        b.product.mrp - b.product.price - (a.product.mrp - a.product.price),
-    )
+    .sort((a, b) => b.savings - a.savings)
     .slice(0, 6);
 
+  const spotlightDeals = dealCards.slice(0, 2);
+
   return (
-    <PageShell
-      eyebrow="Offers"
-      title="Live Deals and Limited-Time Savings"
-      subtitle="Handpicked discounts across popular products. Tap any deal to open the full product details instantly."
-      gradient="from-amber-100 via-white to-orange-100"
-      cards={dealCards}
-      primaryAction={{ label: "Shop Essentials", onClick: onShopEssentials }}
-      secondaryAction={null}
-      onCardClick={(card) => onProductClick(card.product)}
-    />
+    <section className="py-10 sm:py-12">
+      <Container>
+        <button
+          onClick={onBack}
+          className="mb-6 flex items-center gap-2 text-sm font-semibold text-brand-700 transition hover:text-brand-800"
+        >
+          ← Back to Home
+        </button>
+
+        <OfferHeroBanner
+          onShopEssentials={onShopEssentials}
+          dealCount={dealCards.length}
+        />
+
+        <div className="mt-6 grid gap-4 lg:grid-cols-2">
+          {spotlightDeals.map((deal) => (
+            <button
+              key={`spotlight-${deal.id}`}
+              onClick={() => onProductClick(deal.product)}
+              className="rounded-2xl border border-orange-200 bg-gradient-to-r from-white to-orange-50 p-5 text-left shadow-soft transition hover:-translate-y-0.5 hover:border-orange-300"
+            >
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-orange-700">
+                Spotlight Offer
+              </p>
+              <h2 className="mt-2 text-xl font-bold text-slate-900">
+                {deal.product.name}
+              </h2>
+              <p className="mt-1 text-sm text-slate-600">{deal.product.unit}</p>
+              <p className="mt-3 text-sm font-semibold text-emerald-700">
+                Save Rs. {deal.savings} today
+              </p>
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+          {dealCards.map((deal) => (
+            <OfferDealCard
+              key={deal.id}
+              deal={deal}
+              onProductClick={onProductClick}
+              onAddToCart={onAddToCart}
+            />
+          ))}
+        </div>
+      </Container>
+    </section>
   );
 }
 

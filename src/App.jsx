@@ -20,6 +20,7 @@ function App() {
           activePage={navigation.activePage}
           selectedProduct={navigation.selectedProduct}
           categories={catalog.categories}
+          allProducts={catalog.allProducts}
           featuredProducts={catalog.products}
           selectedCategoryId={catalog.selectedCategoryId}
           cartItems={cart.cartItems}
