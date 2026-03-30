@@ -1,5 +1,7 @@
 export const PAGE_KEYS = {
   HOME: "home",
+  ESSENTIALS: "essentials",
+  OFFERS: "offers",
   CART: "cart",
   CATEGORIES: "categories",
   DEALS: "deals",

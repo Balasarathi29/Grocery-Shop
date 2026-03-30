@@ -1,6 +1,6 @@
 import Container from "../layout/Container";
 
-function HeroSection() {
+function HeroSection({ onShopEssentials, onViewOffers }) {
   return (
     <section className="relative overflow-hidden py-12 sm:py-16">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,_#c6f6d5,_transparent_58%),radial-gradient(circle_at_left,_#fed7aa,_transparent_45%)]" />
@@ -18,10 +18,16 @@ function HeroSection() {
               essentials, and neighborhood prices.
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <button className="rounded-xl bg-brand-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-800">
+              <button
+                onClick={onShopEssentials}
+                className="rounded-xl bg-brand-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-800"
+              >
                 Shop Essentials
               </button>
-              <button className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand-300 hover:text-brand-700">
+              <button
+                onClick={onViewOffers}
+                className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand-300 hover:text-brand-700"
+              >
                 View Offers
               </button>
             </div>

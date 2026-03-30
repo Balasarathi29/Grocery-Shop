@@ -10,10 +10,15 @@ function HomePage({
   onClearCategory,
   onAddToCart,
   onProductClick,
+  onShopEssentials,
+  onViewOffers,
 }) {
   return (
     <>
-      <HeroSection />
+      <HeroSection
+        onShopEssentials={onShopEssentials}
+        onViewOffers={onViewOffers}
+      />
       <CategorySection
         categories={categories}
         selectedCategoryId={selectedCategoryId}

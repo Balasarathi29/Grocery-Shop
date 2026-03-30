@@ -1,6 +1,7 @@
 import HomePage from "./HomePage";
 import CategoriesPage from "./CategoriesPage";
-import DealsPage from "./DealsPage";
+import EssentialsPage from "./EssentialsPage";
+import OffersPage from "./OffersPage";
 import ContactPage from "./ContactPage";
 import WishlistPage from "./WishlistPage";
 import AccountPage from "./AccountPage";
@@ -39,6 +40,27 @@ function PageRouter({
           onClearCategory={onClearCategory}
           onAddToCart={addToCart}
           onProductClick={onProductClick}
+          onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
+          onViewOffers={() => onNavigate(PAGE_KEYS.OFFERS)}
+        />
+      );
+
+    case PAGE_KEYS.ESSENTIALS:
+      return (
+        <EssentialsPage
+          products={featuredProducts}
+          onProductClick={onProductClick}
+          onAddToCart={addToCart}
+          onViewOffers={() => onNavigate(PAGE_KEYS.OFFERS)}
+        />
+      );
+
+    case PAGE_KEYS.OFFERS:
+      return (
+        <OffersPage
+          products={featuredProducts}
+          onProductClick={onProductClick}
+          onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
         />
       );
 
@@ -71,9 +93,10 @@ function PageRouter({
 
     case PAGE_KEYS.DEALS:
       return (
-        <DealsPage
+        <OffersPage
           products={featuredProducts}
-          onExploreProducts={(page = PAGE_KEYS.HOME) => onNavigate(page)}
+          onProductClick={onProductClick}
+          onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
         />
       );
 
@@ -105,6 +128,8 @@ function PageRouter({
             onClearCategory={onClearCategory}
             onAddToCart={addToCart}
             onProductClick={onProductClick}
+            onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
+            onViewOffers={() => onNavigate(PAGE_KEYS.OFFERS)}
           />
         );
       }
@@ -127,6 +152,8 @@ function PageRouter({
           onClearCategory={onClearCategory}
           onAddToCart={addToCart}
           onProductClick={onProductClick}
+          onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
+          onViewOffers={() => onNavigate(PAGE_KEYS.OFFERS)}
         />
       );
   }
