@@ -2,75 +2,44 @@ import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import NavOptions from "./components/layout/NavOptions";
 import PageRouter from "./components/pages/PageRouter";
-import useCart from "./hooks/useCart";
-import useAppNavigation from "./hooks/useAppNavigation";
-import useCategoryFilter from "./hooks/useCategoryFilter";
-import { categories, featuredProducts } from "./data/storeData";
+import useStorefrontController from "./hooks/useStorefrontController";
 
 function App() {
-  const {
-    activePage,
-    selectedProduct,
-    showNavOptions,
-    navigateTo,
-    openProductDetail,
-    backToHome,
-    openMenu,
-    closeMenu,
-  } = useAppNavigation();
-
-  const {
-    cartItems,
-    cartCount,
-    addToCart,
-    increaseQuantity,
-    decreaseQuantity,
-    removeItem,
-    clearCart,
-  } = useCart();
-
-  const {
-    selectedCategoryId,
-    filteredProducts,
-    selectCategory,
-    clearCategory,
-  } = useCategoryFilter(featuredProducts);
-
-  const handleCategorySelect = (categoryId) => {
-    selectCategory(categoryId);
-    navigateTo("home");
-  };
+  const { navigation, cart, catalog, actions } = useStorefrontController();
 
   return (
     <div className="min-h-screen bg-stone-50 text-slate-900">
       <Navbar
-        activePage={activePage}
-        cartCount={cartCount}
-        onNavigate={navigateTo}
-        onMenuClick={openMenu}
+        activePage={navigation.activePage}
+        cartCount={cart.cartCount}
+        onNavigate={actions.onNavigate}
+        onMenuClick={actions.onMenuOpen}
       />
       <main>
         <PageRouter
-          activePage={activePage}
-          selectedProduct={selectedProduct}
-          categories={categories}
-          featuredProducts={filteredProducts}
-          selectedCategoryId={selectedCategoryId}
-          cartItems={cartItems}
-          addToCart={addToCart}
-          increaseQuantity={increaseQuantity}
-          decreaseQuantity={decreaseQuantity}
-          removeItem={removeItem}
-          clearCart={clearCart}
-          onNavigate={navigateTo}
-          onProductClick={openProductDetail}
-          onBackToHome={backToHome}
-          onCategorySelect={handleCategorySelect}
-          onClearCategory={clearCategory}
+          activePage={navigation.activePage}
+          selectedProduct={navigation.selectedProduct}
+          categories={catalog.categories}
+          featuredProducts={catalog.products}
+          selectedCategoryId={catalog.selectedCategoryId}
+          cartItems={cart.cartItems}
+          addToCart={actions.onAddToCart}
+          increaseQuantity={actions.onIncreaseQuantity}
+          decreaseQuantity={actions.onDecreaseQuantity}
+          removeItem={actions.onRemoveItem}
+          clearCart={actions.onClearCart}
+          onNavigate={actions.onNavigate}
+          onProductClick={actions.onProductClick}
+          onBackToHome={actions.onBackToHome}
+          onCategorySelect={actions.onCategorySelect}
+          onClearCategory={actions.onClearCategory}
         />
       </main>
-      {showNavOptions && (
-        <NavOptions onNavigate={navigateTo} onClose={closeMenu} />
+      {navigation.showNavOptions && (
+        <NavOptions
+          onNavigate={actions.onNavigate}
+          onClose={actions.onMenuClose}
+        />
       )}
       <Footer />
     </div>
