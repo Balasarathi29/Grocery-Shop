@@ -5,6 +5,8 @@ import OffersPage from "./OffersPage";
 import ContactPage from "./ContactPage";
 import WishlistPage from "./WishlistPage";
 import AccountPage from "./AccountPage";
+import LoginPage from "./LoginPage";
+import RegisterPage from "./RegisterPage";
 import HelpPage from "./HelpPage";
 import SettingsPage from "./SettingsPage";
 import CartPage from "../cart/CartPage";
@@ -13,6 +15,9 @@ import { PAGE_KEYS } from "../../constants/navigation";
 
 function PageRouter({
   activePage,
+  isAuthenticated,
+  user,
+  authNotice,
   selectedProduct,
   categories,
   allProducts,
@@ -25,6 +30,9 @@ function PageRouter({
   removeItem,
   clearCart,
   onNavigate,
+  onLogin,
+  onRegister,
+  onLogout,
   onProductClick,
   onBackToHome,
   onCategorySelect,
@@ -40,6 +48,7 @@ function PageRouter({
           onCategorySelect={onCategorySelect}
           onClearCategory={onClearCategory}
           onAddToCart={addToCart}
+          isAuthenticated={isAuthenticated}
           onProductClick={onProductClick}
           onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
           onViewOffers={() => onNavigate(PAGE_KEYS.OFFERS)}
@@ -52,6 +61,7 @@ function PageRouter({
           products={allProducts}
           onProductClick={onProductClick}
           onAddToCart={addToCart}
+          isAuthenticated={isAuthenticated}
           onViewOffers={() => onNavigate(PAGE_KEYS.OFFERS)}
           onBack={() => onNavigate(PAGE_KEYS.HOME)}
         />
@@ -63,6 +73,7 @@ function PageRouter({
           products={allProducts}
           onProductClick={onProductClick}
           onAddToCart={addToCart}
+          isAuthenticated={isAuthenticated}
           onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
           onBack={() => onNavigate(PAGE_KEYS.HOME)}
         />
@@ -101,6 +112,7 @@ function PageRouter({
           products={allProducts}
           onProductClick={onProductClick}
           onAddToCart={addToCart}
+          isAuthenticated={isAuthenticated}
           onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
           onBack={() => onNavigate(PAGE_KEYS.HOME)}
         />
@@ -115,7 +127,32 @@ function PageRouter({
       );
 
     case PAGE_KEYS.ACCOUNT:
-      return <AccountPage />;
+      return (
+        <AccountPage
+          isAuthenticated={isAuthenticated}
+          user={user}
+          onLogin={() => onNavigate(PAGE_KEYS.LOGIN)}
+          onRegister={() => onNavigate(PAGE_KEYS.REGISTER)}
+          onLogout={onLogout}
+        />
+      );
+
+    case PAGE_KEYS.LOGIN:
+      return (
+        <LoginPage
+          onLogin={onLogin}
+          onSwitchToRegister={() => onNavigate(PAGE_KEYS.REGISTER)}
+          notice={authNotice}
+        />
+      );
+
+    case PAGE_KEYS.REGISTER:
+      return (
+        <RegisterPage
+          onRegister={onRegister}
+          onSwitchToLogin={() => onNavigate(PAGE_KEYS.LOGIN)}
+        />
+      );
 
     case PAGE_KEYS.HELP:
       return <HelpPage />;
@@ -133,6 +170,7 @@ function PageRouter({
             onCategorySelect={onCategorySelect}
             onClearCategory={onClearCategory}
             onAddToCart={addToCart}
+            isAuthenticated={isAuthenticated}
             onProductClick={onProductClick}
             onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
             onViewOffers={() => onNavigate(PAGE_KEYS.OFFERS)}
@@ -145,6 +183,7 @@ function PageRouter({
           product={selectedProduct}
           onBack={onBackToHome}
           onAddToCart={addToCart}
+          isAuthenticated={isAuthenticated}
         />
       );
 
@@ -157,6 +196,7 @@ function PageRouter({
           onCategorySelect={onCategorySelect}
           onClearCategory={onClearCategory}
           onAddToCart={addToCart}
+          isAuthenticated={isAuthenticated}
           onProductClick={onProductClick}
           onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
           onViewOffers={() => onNavigate(PAGE_KEYS.OFFERS)}

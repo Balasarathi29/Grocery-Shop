@@ -1,4 +1,4 @@
-function OfferDealCard({ deal, onProductClick, onAddToCart }) {
+function OfferDealCard({ deal, onProductClick, onAddToCart, isAuthenticated }) {
   return (
     <article className="group rounded-2xl border border-orange-100 bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-xl">
       <div className="mb-4 flex items-center justify-between">
@@ -43,9 +43,13 @@ function OfferDealCard({ deal, onProductClick, onAddToCart }) {
 
       <button
         onClick={() => onAddToCart(deal.product)}
-        className="mt-4 w-full rounded-xl bg-orange-600 py-2.5 text-sm font-semibold text-white transition hover:bg-orange-700"
+        className={`mt-4 w-full rounded-xl py-2.5 text-sm font-semibold text-white transition ${
+          isAuthenticated
+            ? "bg-orange-600 hover:bg-orange-700"
+            : "bg-slate-700 hover:bg-slate-800"
+        }`}
       >
-        Grab Deal
+        {isAuthenticated ? "Grab Deal" : "Login to Grab"}
       </button>
     </article>
   );

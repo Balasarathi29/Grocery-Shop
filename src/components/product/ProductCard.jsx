@@ -1,4 +1,4 @@
-function ProductCard({ product, onAddToCart, onProductClick }) {
+function ProductCard({ product, onAddToCart, onProductClick, isAuthenticated }) {
   const discount = Math.round(
     ((product.mrp - product.price) / product.mrp) * 100,
   );
@@ -45,9 +45,13 @@ function ProductCard({ product, onAddToCart, onProductClick }) {
 
       <button
         onClick={() => onAddToCart(product)}
-        className="mt-4 w-full rounded-xl bg-brand-700 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-800"
+        className={`mt-4 w-full rounded-xl py-2.5 text-sm font-semibold text-white transition ${
+          isAuthenticated
+            ? "bg-brand-700 hover:bg-brand-800"
+            : "bg-slate-700 hover:bg-slate-800"
+        }`}
       >
-        Add to Cart
+        {isAuthenticated ? "Add to Cart" : "Login to Add"}
       </button>
     </article>
   );

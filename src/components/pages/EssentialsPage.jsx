@@ -5,6 +5,7 @@ function EssentialsPage({
   products,
   onProductClick,
   onAddToCart,
+  isAuthenticated,
   onViewOffers,
   onBack,
 }) {
@@ -46,6 +47,7 @@ function EssentialsPage({
               key={product.id}
               product={product}
               onAddToCart={onAddToCart}
+              isAuthenticated={isAuthenticated}
               onProductClick={onProductClick}
             />
           ))}

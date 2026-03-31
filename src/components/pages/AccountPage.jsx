@@ -1,6 +1,27 @@
 import PageShell from "./PageShell";
 
-function AccountPage() {
+function AccountPage({ isAuthenticated, user, onLogin, onRegister, onLogout }) {
+  if (!isAuthenticated) {
+    return (
+      <PageShell
+        eyebrow="Member Access"
+        title="Login to Access Account"
+        subtitle="Create an account or sign in to view orders, save addresses, and unlock cart checkout."
+        gradient="from-amber-100 via-white to-orange-100"
+        cards={[
+          {
+            kicker: "Login Required",
+            title: "Only logged-in users can add products to cart",
+            description:
+              "Sign in to continue shopping with cart, checkout, and order tracking.",
+          },
+        ]}
+        primaryAction={{ label: "Login", onClick: onLogin }}
+        secondaryAction={{ label: "Register", onClick: onRegister }}
+      />
+    );
+  }
+
   const cards = [
     {
       kicker: "Orders",
@@ -25,10 +46,11 @@ function AccountPage() {
   return (
     <PageShell
       eyebrow="Profile"
-      title="Account Dashboard"
+      title={`Welcome, ${user?.fullName || "Member"}`}
       subtitle="Manage your profile, orders, delivery addresses, and payment methods from one modern dashboard."
       gradient="from-violet-100 via-white to-indigo-100"
       cards={cards}
+      secondaryAction={{ label: "Logout", onClick: onLogout }}
     />
   );
 }

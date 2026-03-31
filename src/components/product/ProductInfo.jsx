@@ -1,4 +1,10 @@
-function ProductInfo({ product, quantity, onQuantityChange, onAddToCart }) {
+function ProductInfo({
+  product,
+  quantity,
+  onQuantityChange,
+  onAddToCart,
+  isAuthenticated,
+}) {
   return (
     <div className="space-y-6 rounded-3xl border border-brand-100 bg-white p-6 shadow-soft sm:p-8">
       <div>
@@ -47,9 +53,15 @@ function ProductInfo({ product, quantity, onQuantityChange, onAddToCart }) {
       <div className="flex gap-3 pt-4">
         <button
           onClick={() => onAddToCart(product, quantity)}
-          className="flex-1 rounded-xl bg-brand-700 py-3 text-center text-lg font-semibold text-white transition hover:bg-brand-800"
+          className={`flex-1 rounded-xl py-3 text-center text-lg font-semibold text-white transition ${
+            isAuthenticated
+              ? "bg-brand-700 hover:bg-brand-800"
+              : "bg-slate-700 hover:bg-slate-800"
+          }`}
         >
-          Add to Cart ({quantity})
+          {isAuthenticated
+            ? `Add to Cart (${quantity})`
+            : "Login to Add this Product"}
         </button>
         <button className="rounded-xl border-2 border-brand-700 px-6 py-3 text-center font-semibold text-brand-700 transition hover:bg-brand-50">
           ❤

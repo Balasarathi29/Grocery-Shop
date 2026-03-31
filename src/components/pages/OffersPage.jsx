@@ -6,6 +6,7 @@ function OffersPage({
   products,
   onProductClick,
   onAddToCart,
+  isAuthenticated,
   onShopEssentials,
   onBack,
 }) {
@@ -69,6 +70,7 @@ function OffersPage({
               deal={deal}
               onProductClick={onProductClick}
               onAddToCart={onAddToCart}
+              isAuthenticated={isAuthenticated}
             />
           ))}
         </div>

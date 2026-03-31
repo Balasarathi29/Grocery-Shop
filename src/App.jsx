@@ -5,19 +5,25 @@ import PageRouter from "./components/pages/PageRouter";
 import useStorefrontController from "./hooks/useStorefrontController";
 
 function App() {
-  const { navigation, cart, catalog, actions } = useStorefrontController();
+  const { navigation, auth, cart, catalog, actions } = useStorefrontController();
 
   return (
     <div className="min-h-screen bg-stone-50 text-slate-900">
       <Navbar
         activePage={navigation.activePage}
         cartCount={cart.cartCount}
+        isAuthenticated={auth.isAuthenticated}
+        userName={auth.user?.fullName}
         onNavigate={actions.onNavigate}
+        onLogout={actions.onLogout}
         onMenuClick={actions.onMenuOpen}
       />
       <main>
         <PageRouter
           activePage={navigation.activePage}
+          isAuthenticated={auth.isAuthenticated}
+          user={auth.user}
+          authNotice={auth.notice}
           selectedProduct={navigation.selectedProduct}
           categories={catalog.categories}
           allProducts={catalog.allProducts}
@@ -30,6 +36,9 @@ function App() {
           removeItem={actions.onRemoveItem}
           clearCart={actions.onClearCart}
           onNavigate={actions.onNavigate}
+          onLogin={actions.onLogin}
+          onRegister={actions.onRegister}
+          onLogout={actions.onLogout}
           onProductClick={actions.onProductClick}
           onBackToHome={actions.onBackToHome}
           onCategorySelect={actions.onCategorySelect}

@@ -3,6 +3,8 @@ export const PAGE_KEYS = {
   ESSENTIALS: "essentials",
   OFFERS: "offers",
   CART: "cart",
+  LOGIN: "login",
+  REGISTER: "register",
   CATEGORIES: "categories",
   DEALS: "deals",
   CONTACT: "contact",
@@ -44,6 +46,18 @@ export const menuNavItems = [
     label: "Account",
     page: PAGE_KEYS.ACCOUNT,
     description: "Your profile & orders",
+  },
+  {
+    icon: "🔐",
+    label: "Login",
+    page: PAGE_KEYS.LOGIN,
+    description: "Sign in to add products to cart",
+  },
+  {
+    icon: "✨",
+    label: "Register",
+    page: PAGE_KEYS.REGISTER,
+    description: "Create your FreshShelf account",
   },
   {
     icon: "🎯",

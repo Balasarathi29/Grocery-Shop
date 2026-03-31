@@ -6,7 +6,7 @@ import ProductSpecifications from "./ProductSpecifications";
 import ProductHighlights from "./ProductHighlights";
 import ProductRating from "./ProductRating";
 
-function ProductDetailsPage({ product, onBack, onAddToCart }) {
+function ProductDetailsPage({ product, onBack, onAddToCart, isAuthenticated }) {
   const [quantity, setQuantity] = useState(1);
 
   const handleAddToCart = (prod, qty) => {
@@ -33,6 +33,7 @@ function ProductDetailsPage({ product, onBack, onAddToCart }) {
             quantity={quantity}
             onQuantityChange={setQuantity}
             onAddToCart={handleAddToCart}
+            isAuthenticated={isAuthenticated}
           />
         </div>
 

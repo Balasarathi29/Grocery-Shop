@@ -9,6 +9,7 @@ function HomePage({
   onCategorySelect,
   onClearCategory,
   onAddToCart,
+  isAuthenticated,
   onProductClick,
   onShopEssentials,
   onViewOffers,
@@ -30,6 +31,7 @@ function HomePage({
         categories={categories}
         onClearCategory={onClearCategory}
         onAddToCart={onAddToCart}
+        isAuthenticated={isAuthenticated}
         onProductClick={onProductClick}
       />
     </>
