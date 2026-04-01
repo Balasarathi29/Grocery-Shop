@@ -1,19 +1,18 @@
 import Container from "../layout/Container";
 import ProductCard from "../product/ProductCard";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "../../constants/navigation";
+import { useStorefront } from "../../context/useStorefront";
 
-function EssentialsPage({
-  products,
-  onProductClick,
-  onAddToCart,
-  isAuthenticated,
-  onViewOffers,
-  onBack,
-}) {
+function EssentialsPage() {
+  const navigate = useNavigate();
+  const { auth, catalog, actions } = useStorefront();
+
   return (
     <section className="py-10 sm:py-12">
       <Container>
         <button
-          onClick={onBack}
+          onClick={() => navigate(APP_ROUTES.HOME)}
           className="mb-6 flex items-center gap-2 text-sm font-semibold text-brand-700 transition hover:text-brand-800"
         >
           ← Back to Home
@@ -33,7 +32,7 @@ function EssentialsPage({
 
           <div className="mt-6 flex flex-wrap gap-3">
             <button
-              onClick={onViewOffers}
+              onClick={() => navigate(APP_ROUTES.OFFERS)}
               className="rounded-xl bg-brand-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-800"
             >
               Explore Offers
@@ -42,13 +41,12 @@ function EssentialsPage({
         </div>
 
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => (
+          {catalog.allProducts.map((product) => (
             <ProductCard
               key={product.id}
               product={product}
-              onAddToCart={onAddToCart}
-              isAuthenticated={isAuthenticated}
-              onProductClick={onProductClick}
+              onAddToCart={actions.onAddToCart}
+              isAuthenticated={auth.isAuthenticated}
             />
           ))}
         </div>

@@ -1,3 +1,4 @@
+import { Navigate, Route, Routes, useParams } from "react-router-dom";
 import HomePage from "./HomePage";
 import CategoriesPage from "./CategoriesPage";
 import EssentialsPage from "./EssentialsPage";
@@ -11,198 +12,50 @@ import HelpPage from "./HelpPage";
 import SettingsPage from "./SettingsPage";
 import CartPage from "../cart/CartPage";
 import ProductDetailsPage from "../product/ProductDetailsPage";
-import { PAGE_KEYS } from "../../constants/navigation";
+import { APP_ROUTES } from "../../constants/navigation";
+import { useStorefront } from "../../context/useStorefront";
 
-function PageRouter({
-  activePage,
-  isAuthenticated,
-  user,
-  authNotice,
-  selectedProduct,
-  categories,
-  allProducts,
-  featuredProducts,
-  selectedCategoryId,
-  cartItems,
-  addToCart,
-  increaseQuantity,
-  decreaseQuantity,
-  removeItem,
-  clearCart,
-  onNavigate,
-  onLogin,
-  onRegister,
-  onLogout,
-  onProductClick,
-  onBackToHome,
-  onCategorySelect,
-  onClearCategory,
-}) {
-  switch (activePage) {
-    case PAGE_KEYS.HOME:
-      return (
-        <HomePage
-          categories={categories}
-          products={featuredProducts}
-          selectedCategoryId={selectedCategoryId}
-          onCategorySelect={onCategorySelect}
-          onClearCategory={onClearCategory}
-          onAddToCart={addToCart}
-          isAuthenticated={isAuthenticated}
-          onProductClick={onProductClick}
-          onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
-          onViewOffers={() => onNavigate(PAGE_KEYS.OFFERS)}
-        />
-      );
+function ProductDetailsRoute() {
+  const { productId } = useParams();
+  const { catalog } = useStorefront();
 
-    case PAGE_KEYS.ESSENTIALS:
-      return (
-        <EssentialsPage
-          products={allProducts}
-          onProductClick={onProductClick}
-          onAddToCart={addToCart}
-          isAuthenticated={isAuthenticated}
-          onViewOffers={() => onNavigate(PAGE_KEYS.OFFERS)}
-          onBack={() => onNavigate(PAGE_KEYS.HOME)}
-        />
-      );
+  const product = catalog.allProducts.find(
+    (item) => String(item.id) === String(productId),
+  );
 
-    case PAGE_KEYS.OFFERS:
-      return (
-        <OffersPage
-          products={allProducts}
-          onProductClick={onProductClick}
-          onAddToCart={addToCart}
-          isAuthenticated={isAuthenticated}
-          onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
-          onBack={() => onNavigate(PAGE_KEYS.HOME)}
-        />
-      );
-
-    case PAGE_KEYS.CART:
-      return (
-        <CartPage
-          cartItems={cartItems}
-          onContinueShopping={() => onNavigate(PAGE_KEYS.HOME)}
-          onIncreaseQuantity={increaseQuantity}
-          onDecreaseQuantity={decreaseQuantity}
-          onRemoveItem={removeItem}
-          onClearCart={clearCart}
-        />
-      );
-
-    case PAGE_KEYS.CATEGORIES:
-      return (
-        <CategoriesPage
-          categories={categories}
-          onExploreProducts={(categoryId = "all") => {
-            if (categoryId === "all") {
-              onClearCategory();
-            } else {
-              onCategorySelect(categoryId);
-            }
-            onNavigate(PAGE_KEYS.HOME);
-          }}
-        />
-      );
-
-    case PAGE_KEYS.DEALS:
-      return (
-        <OffersPage
-          products={allProducts}
-          onProductClick={onProductClick}
-          onAddToCart={addToCart}
-          isAuthenticated={isAuthenticated}
-          onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
-          onBack={() => onNavigate(PAGE_KEYS.HOME)}
-        />
-      );
-
-    case PAGE_KEYS.CONTACT:
-      return <ContactPage />;
-
-    case PAGE_KEYS.WISHLIST:
-      return (
-        <WishlistPage onExploreProducts={() => onNavigate(PAGE_KEYS.HOME)} />
-      );
-
-    case PAGE_KEYS.ACCOUNT:
-      return (
-        <AccountPage
-          isAuthenticated={isAuthenticated}
-          user={user}
-          onLogin={() => onNavigate(PAGE_KEYS.LOGIN)}
-          onRegister={() => onNavigate(PAGE_KEYS.REGISTER)}
-          onLogout={onLogout}
-        />
-      );
-
-    case PAGE_KEYS.LOGIN:
-      return (
-        <LoginPage
-          onLogin={onLogin}
-          onSwitchToRegister={() => onNavigate(PAGE_KEYS.REGISTER)}
-          notice={authNotice}
-        />
-      );
-
-    case PAGE_KEYS.REGISTER:
-      return (
-        <RegisterPage
-          onRegister={onRegister}
-          onSwitchToLogin={() => onNavigate(PAGE_KEYS.LOGIN)}
-        />
-      );
-
-    case PAGE_KEYS.HELP:
-      return <HelpPage />;
-
-    case PAGE_KEYS.SETTINGS:
-      return <SettingsPage />;
-
-    case PAGE_KEYS.PRODUCT_DETAIL:
-      if (!selectedProduct) {
-        return (
-          <HomePage
-            categories={categories}
-            products={featuredProducts}
-            selectedCategoryId={selectedCategoryId}
-            onCategorySelect={onCategorySelect}
-            onClearCategory={onClearCategory}
-            onAddToCart={addToCart}
-            isAuthenticated={isAuthenticated}
-            onProductClick={onProductClick}
-            onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
-            onViewOffers={() => onNavigate(PAGE_KEYS.OFFERS)}
-          />
-        );
-      }
-
-      return (
-        <ProductDetailsPage
-          product={selectedProduct}
-          onBack={onBackToHome}
-          onAddToCart={addToCart}
-          isAuthenticated={isAuthenticated}
-        />
-      );
-
-    default:
-      return (
-        <HomePage
-          categories={categories}
-          products={featuredProducts}
-          selectedCategoryId={selectedCategoryId}
-          onCategorySelect={onCategorySelect}
-          onClearCategory={onClearCategory}
-          onAddToCart={addToCart}
-          isAuthenticated={isAuthenticated}
-          onProductClick={onProductClick}
-          onShopEssentials={() => onNavigate(PAGE_KEYS.ESSENTIALS)}
-          onViewOffers={() => onNavigate(PAGE_KEYS.OFFERS)}
-        />
-      );
+  if (!product) {
+    return <Navigate to={APP_ROUTES.HOME} replace />;
   }
+
+  return <ProductDetailsPage product={product} />;
+}
+
+function PageRouter() {
+  return (
+    <Routes>
+      <Route path={APP_ROUTES.HOME} element={<HomePage />} />
+      <Route path={APP_ROUTES.ESSENTIALS} element={<EssentialsPage />} />
+      <Route path={APP_ROUTES.OFFERS} element={<OffersPage />} />
+      <Route path={APP_ROUTES.CART} element={<CartPage />} />
+      <Route path={APP_ROUTES.CATEGORIES} element={<CategoriesPage />} />
+      <Route
+        path={APP_ROUTES.DEALS}
+        element={<Navigate to={APP_ROUTES.OFFERS} replace />}
+      />
+      <Route path={APP_ROUTES.CONTACT} element={<ContactPage />} />
+      <Route path={APP_ROUTES.WISHLIST} element={<WishlistPage />} />
+      <Route path={APP_ROUTES.ACCOUNT} element={<AccountPage />} />
+      <Route path={APP_ROUTES.LOGIN} element={<LoginPage />} />
+      <Route path={APP_ROUTES.REGISTER} element={<RegisterPage />} />
+      <Route path={APP_ROUTES.HELP} element={<HelpPage />} />
+      <Route path={APP_ROUTES.SETTINGS} element={<SettingsPage />} />
+      <Route
+        path={APP_ROUTES.PRODUCT_DETAIL}
+        element={<ProductDetailsRoute />}
+      />
+      <Route path="*" element={<Navigate to={APP_ROUTES.HOME} replace />} />
+    </Routes>
+  );
 }
 
 export default PageRouter;

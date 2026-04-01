@@ -1,20 +1,24 @@
 import Container from "./Container";
-import { desktopNavItems, PAGE_KEYS } from "../../constants/navigation";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { APP_ROUTES, desktopNavItems } from "../../constants/navigation";
 
 function Navbar({
-  activePage,
   cartCount,
   isAuthenticated,
   userName,
-  onNavigate,
   onLogout,
   onMenuClick,
 }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const isCartActive = location.pathname === APP_ROUTES.CART;
+
   return (
     <header className="sticky top-0 z-40 border-b border-brand-100/70 bg-stone-50/95 backdrop-blur">
       <Container className="flex h-16 items-center justify-between">
         <button
-          onClick={() => onNavigate(PAGE_KEYS.HOME)}
+          onClick={() => navigate(APP_ROUTES.HOME)}
           className="flex items-center gap-3 text-left"
           aria-label="Go to home page"
         >
@@ -31,15 +35,15 @@ function Navbar({
 
         <nav className="hidden items-center gap-8 text-sm font-semibold text-slate-700 md:flex">
           {desktopNavItems.map((item) => (
-            <button
-              key={item.page}
-              onClick={() => onNavigate(item.page)}
-              className={`transition hover:text-brand-700 ${
-                activePage === item.page ? "text-brand-700" : ""
-              }`}
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) =>
+                `transition hover:text-brand-700 ${isActive ? "text-brand-700" : ""}`
+              }
             >
               {item.label}
-            </button>
+            </NavLink>
           ))}
         </nav>
 
@@ -47,13 +51,13 @@ function Navbar({
           {!isAuthenticated ? (
             <>
               <button
-                onClick={() => onNavigate(PAGE_KEYS.LOGIN)}
+                onClick={() => navigate(APP_ROUTES.LOGIN)}
                 className="hidden rounded-xl border border-brand-200 bg-white px-4 py-2 text-sm font-semibold text-brand-700 transition hover:bg-brand-50 sm:block"
               >
                 Login
               </button>
               <button
-                onClick={() => onNavigate(PAGE_KEYS.REGISTER)}
+                onClick={() => navigate(APP_ROUTES.REGISTER)}
                 className="hidden rounded-xl bg-brand-700 px-4 py-2 text-sm font-semibold text-white transition hover:bg-brand-800 sm:block"
               >
                 Register
@@ -81,11 +85,9 @@ function Navbar({
             ☰
           </button>
           <button
-            onClick={() => onNavigate(PAGE_KEYS.CART)}
+            onClick={() => navigate(APP_ROUTES.CART)}
             className={`rounded-xl px-4 py-2 text-sm font-semibold text-white transition ${
-              activePage === "cart"
-                ? "bg-brand-900"
-                : "bg-brand-700 hover:bg-brand-800"
+              isCartActive ? "bg-brand-900" : "bg-brand-700 hover:bg-brand-800"
             }`}
             aria-label="Open cart page"
           >

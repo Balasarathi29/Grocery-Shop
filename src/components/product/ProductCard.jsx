@@ -1,12 +1,32 @@
-function ProductCard({ product, onAddToCart, onProductClick, isAuthenticated }) {
+import { useLocation, useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "../../constants/navigation";
+
+function ProductCard({ product, onAddToCart, isAuthenticated }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const discount = Math.round(
     ((product.mrp - product.price) / product.mrp) * 100,
   );
 
+  const openProduct = () => {
+    navigate(APP_ROUTES.productDetail(product.id));
+  };
+
+  const handleAddToCart = () => {
+    const added = onAddToCart(product);
+
+    if (!added) {
+      navigate(APP_ROUTES.LOGIN, {
+        state: { from: `${location.pathname}${location.search}` },
+      });
+    }
+  };
+
   return (
     <article className="group rounded-2xl border border-brand-100 bg-white p-4 shadow-soft transition hover:-translate-y-1 hover:shadow-xl">
       <button
-        onClick={() => onProductClick(product)}
+        onClick={openProduct}
         className="mb-4 block h-28 w-full rounded-2xl bg-gradient-to-br"
       >
         <div
@@ -22,7 +42,7 @@ function ProductCard({ product, onAddToCart, onProductClick, isAuthenticated }) 
         {product.badge}
       </p>
       <button
-        onClick={() => onProductClick(product)}
+        onClick={openProduct}
         className="mb-2 line-clamp-2 text-base font-bold text-slate-900 text-left transition hover:text-brand-700"
       >
         {product.name}
@@ -44,7 +64,7 @@ function ProductCard({ product, onAddToCart, onProductClick, isAuthenticated }) 
       </div>
 
       <button
-        onClick={() => onAddToCart(product)}
+        onClick={handleAddToCart}
         className={`mt-4 w-full rounded-xl py-2.5 text-sm font-semibold text-white transition ${
           isAuthenticated
             ? "bg-brand-700 hover:bg-brand-800"

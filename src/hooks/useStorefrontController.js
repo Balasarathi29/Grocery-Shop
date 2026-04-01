@@ -1,33 +1,19 @@
 import { useState } from "react";
 import { categories, featuredProducts } from "../data/storeData";
-import useAppNavigation from "./useAppNavigation";
 import useAuth from "./useAuth";
 import useCart from "./useCart";
 import useCategoryFilter from "./useCategoryFilter";
-import useScrollToTopOnNavigation from "./useScrollToTopOnNavigation";
-import { PAGE_KEYS } from "../constants/navigation";
 
 function useStorefrontController() {
-  const navigation = useAppNavigation();
+  const [showNavOptions, setShowNavOptions] = useState(false);
   const cart = useCart();
   const auth = useAuth();
   const catalogFilter = useCategoryFilter(featuredProducts);
   const [authNotice, setAuthNotice] = useState("");
 
-  useScrollToTopOnNavigation([
-    navigation.activePage,
-    navigation.selectedProduct?.id,
-  ]);
-
-  const handleCategorySelect = (categoryId) => {
-    catalogFilter.selectCategory(categoryId);
-    navigation.navigateTo(PAGE_KEYS.HOME);
-  };
-
   const handleAddToCart = (product) => {
     if (!auth.isAuthenticated) {
       setAuthNotice("Please login first to add products to cart.");
-      navigation.navigateTo(PAGE_KEYS.LOGIN);
       return false;
     }
 
@@ -40,7 +26,6 @@ function useStorefrontController() {
 
     if (result.ok) {
       setAuthNotice("");
-      navigation.navigateTo(PAGE_KEYS.HOME);
     }
 
     return result;
@@ -51,7 +36,6 @@ function useStorefrontController() {
 
     if (result.ok) {
       setAuthNotice("");
-      navigation.navigateTo(PAGE_KEYS.HOME);
     }
 
     return result;
@@ -59,11 +43,15 @@ function useStorefrontController() {
 
   const handleLogout = () => {
     auth.logout();
-    navigation.navigateTo(PAGE_KEYS.HOME);
   };
 
+  const openMenu = () => setShowNavOptions(true);
+  const closeMenu = () => setShowNavOptions(false);
+
   return {
-    navigation,
+    ui: {
+      showNavOptions,
+    },
     auth: {
       user: auth.user,
       isAuthenticated: auth.isAuthenticated,
@@ -77,12 +65,9 @@ function useStorefrontController() {
       selectedCategoryId: catalogFilter.selectedCategoryId,
     },
     actions: {
-      onNavigate: navigation.navigateTo,
-      onProductClick: navigation.openProductDetail,
-      onBackToHome: navigation.backToHome,
-      onMenuOpen: navigation.openMenu,
-      onMenuClose: navigation.closeMenu,
-      onCategorySelect: handleCategorySelect,
+      onMenuOpen: openMenu,
+      onMenuClose: closeMenu,
+      onCategorySelect: catalogFilter.selectCategory,
       onClearCategory: catalogFilter.clearCategory,
       onAddToCart: handleAddToCart,
       onIncreaseQuantity: cart.increaseQuantity,

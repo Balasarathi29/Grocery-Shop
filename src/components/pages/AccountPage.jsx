@@ -1,7 +1,18 @@
 import PageShell from "./PageShell";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "../../constants/navigation";
+import { useStorefront } from "../../context/useStorefront";
 
-function AccountPage({ isAuthenticated, user, onLogin, onRegister, onLogout }) {
-  if (!isAuthenticated) {
+function AccountPage() {
+  const navigate = useNavigate();
+  const { auth, actions } = useStorefront();
+
+  const handleLogout = () => {
+    actions.onLogout();
+    navigate(APP_ROUTES.HOME);
+  };
+
+  if (!auth.isAuthenticated) {
     return (
       <PageShell
         eyebrow="Member Access"
@@ -16,8 +27,14 @@ function AccountPage({ isAuthenticated, user, onLogin, onRegister, onLogout }) {
               "Sign in to continue shopping with cart, checkout, and order tracking.",
           },
         ]}
-        primaryAction={{ label: "Login", onClick: onLogin }}
-        secondaryAction={{ label: "Register", onClick: onRegister }}
+        primaryAction={{
+          label: "Login",
+          onClick: () => navigate(APP_ROUTES.LOGIN),
+        }}
+        secondaryAction={{
+          label: "Register",
+          onClick: () => navigate(APP_ROUTES.REGISTER),
+        }}
       />
     );
   }
@@ -46,11 +63,11 @@ function AccountPage({ isAuthenticated, user, onLogin, onRegister, onLogout }) {
   return (
     <PageShell
       eyebrow="Profile"
-      title={`Welcome, ${user?.fullName || "Member"}`}
+      title={`Welcome, ${auth.user?.fullName || "Member"}`}
       subtitle="Manage your profile, orders, delivery addresses, and payment methods from one modern dashboard."
       gradient="from-violet-100 via-white to-indigo-100"
       cards={cards}
-      secondaryAction={{ label: "Logout", onClick: onLogout }}
+      secondaryAction={{ label: "Logout", onClick: handleLogout }}
     />
   );
 }

@@ -2,57 +2,46 @@ import Navbar from "./components/layout/Navbar";
 import Footer from "./components/layout/Footer";
 import NavOptions from "./components/layout/NavOptions";
 import PageRouter from "./components/pages/PageRouter";
-import useStorefrontController from "./hooks/useStorefrontController";
+import { StorefrontProvider } from "./context/StorefrontContext";
+import { useStorefront } from "./context/useStorefront";
+import useScrollToTopOnNavigation from "./hooks/useScrollToTopOnNavigation";
+import { APP_ROUTES } from "./constants/navigation";
+import { useNavigate } from "react-router-dom";
 
-function App() {
-  const { navigation, auth, cart, catalog, actions } = useStorefrontController();
+function StorefrontLayout() {
+  const navigate = useNavigate();
+  const { ui, auth, cart, actions } = useStorefront();
+
+  useScrollToTopOnNavigation();
+
+  const handleLogout = () => {
+    actions.onLogout();
+    navigate(APP_ROUTES.HOME);
+  };
 
   return (
     <div className="min-h-screen bg-stone-50 text-slate-900">
       <Navbar
-        activePage={navigation.activePage}
         cartCount={cart.cartCount}
         isAuthenticated={auth.isAuthenticated}
         userName={auth.user?.fullName}
-        onNavigate={actions.onNavigate}
-        onLogout={actions.onLogout}
+        onLogout={handleLogout}
         onMenuClick={actions.onMenuOpen}
       />
       <main>
-        <PageRouter
-          activePage={navigation.activePage}
-          isAuthenticated={auth.isAuthenticated}
-          user={auth.user}
-          authNotice={auth.notice}
-          selectedProduct={navigation.selectedProduct}
-          categories={catalog.categories}
-          allProducts={catalog.allProducts}
-          featuredProducts={catalog.products}
-          selectedCategoryId={catalog.selectedCategoryId}
-          cartItems={cart.cartItems}
-          addToCart={actions.onAddToCart}
-          increaseQuantity={actions.onIncreaseQuantity}
-          decreaseQuantity={actions.onDecreaseQuantity}
-          removeItem={actions.onRemoveItem}
-          clearCart={actions.onClearCart}
-          onNavigate={actions.onNavigate}
-          onLogin={actions.onLogin}
-          onRegister={actions.onRegister}
-          onLogout={actions.onLogout}
-          onProductClick={actions.onProductClick}
-          onBackToHome={actions.onBackToHome}
-          onCategorySelect={actions.onCategorySelect}
-          onClearCategory={actions.onClearCategory}
-        />
+        <PageRouter />
       </main>
-      {navigation.showNavOptions && (
-        <NavOptions
-          onNavigate={actions.onNavigate}
-          onClose={actions.onMenuClose}
-        />
-      )}
+      {ui.showNavOptions && <NavOptions onClose={actions.onMenuClose} />}
       <Footer />
     </div>
+  );
+}
+
+function App() {
+  return (
+    <StorefrontProvider>
+      <StorefrontLayout />
+    </StorefrontProvider>
   );
 }
 

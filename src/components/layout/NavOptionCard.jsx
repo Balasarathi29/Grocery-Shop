@@ -1,7 +1,7 @@
 function NavOptionCard({ item, onSelect }) {
   return (
     <button
-      onClick={() => onSelect(item.page)}
+      onClick={() => onSelect(item.path)}
       className="flex flex-col items-start gap-2 rounded-2xl border border-brand-100 bg-white p-4 text-left transition hover:border-brand-300 hover:bg-brand-50"
     >
       <div className="text-3xl">{item.icon}</div>

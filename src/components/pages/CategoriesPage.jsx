@@ -1,7 +1,24 @@
 import PageShell from "./PageShell";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "../../constants/navigation";
+import { useStorefront } from "../../context/useStorefront";
 
-function CategoriesPage({ categories, onExploreProducts }) {
-  const cards = categories.map((category) => ({
+function CategoriesPage() {
+  const navigate = useNavigate();
+  const { catalog, actions } = useStorefront();
+
+  const exploreProducts = (categoryId = "all") => {
+    if (categoryId === "all") {
+      actions.onClearCategory();
+      navigate(APP_ROUTES.HOME);
+      return;
+    }
+
+    actions.onCategorySelect(categoryId);
+    navigate(`${APP_ROUTES.HOME}?category=${categoryId}`);
+  };
+
+  const cards = catalog.categories.map((category) => ({
     id: category.id,
     kicker: "Category",
     title: category.name,
@@ -18,9 +35,9 @@ function CategoriesPage({ categories, onExploreProducts }) {
       cards={cards}
       primaryAction={{
         label: "Explore Products",
-        onClick: () => onExploreProducts("all"),
+        onClick: () => exploreProducts("all"),
       }}
-      onCardClick={(card) => onExploreProducts(card.id)}
+      onCardClick={(card) => exploreProducts(card.id)}
     />
   );
 }

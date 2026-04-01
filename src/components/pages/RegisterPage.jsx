@@ -1,8 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import AuthPanel from "../auth/AuthPanel";
 import AuthField from "../auth/AuthField";
+import { APP_ROUTES } from "../../constants/navigation";
+import { useStorefront } from "../../context/useStorefront";
 
-function RegisterPage({ onRegister, onSwitchToLogin }) {
+function RegisterPage() {
+  const navigate = useNavigate();
+  const { actions } = useStorefront();
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -18,7 +23,7 @@ function RegisterPage({ onRegister, onSwitchToLogin }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const result = onRegister(form);
+    const result = actions.onRegister(form);
 
     if (!result.ok) {
       setError(result.message);
@@ -32,6 +37,7 @@ function RegisterPage({ onRegister, onSwitchToLogin }) {
       phone: "",
       password: "",
     });
+    navigate(APP_ROUTES.HOME, { replace: true });
   };
 
   const formContent = (
@@ -101,7 +107,7 @@ function RegisterPage({ onRegister, onSwitchToLogin }) {
       form={formContent}
       footerLabel="Already have an account?"
       footerActionLabel="Login now"
-      onFooterAction={onSwitchToLogin}
+      onFooterAction={() => navigate(APP_ROUTES.LOGIN)}
     />
   );
 }

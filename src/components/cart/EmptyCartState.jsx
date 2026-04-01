@@ -1,4 +1,9 @@
-function EmptyCartState({ onContinueShopping }) {
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "../../constants/navigation";
+
+function EmptyCartState() {
+  const navigate = useNavigate();
+
   return (
     <div className="overflow-hidden rounded-3xl border border-brand-100 bg-white shadow-soft">
       <div className="bg-gradient-to-r from-brand-100 via-brand-50 to-stone-100 p-10 text-center sm:p-14">
@@ -13,7 +18,7 @@ function EmptyCartState({ onContinueShopping }) {
           keep them ready for checkout.
         </p>
         <button
-          onClick={onContinueShopping}
+          onClick={() => navigate(APP_ROUTES.HOME)}
           className="mt-7 rounded-xl bg-brand-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-800"
         >
           Browse Products

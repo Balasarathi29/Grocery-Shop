@@ -1,4 +1,9 @@
-function CartHeader({ onContinueShopping }) {
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "../../constants/navigation";
+
+function CartHeader() {
+  const navigate = useNavigate();
+
   return (
     <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
       <div>
@@ -14,7 +19,7 @@ function CartHeader({ onContinueShopping }) {
       </div>
 
       <button
-        onClick={onContinueShopping}
+        onClick={() => navigate(APP_ROUTES.HOME)}
         className="rounded-xl border border-brand-200 bg-white px-4 py-2.5 text-sm font-semibold text-brand-800 transition hover:border-brand-300 hover:bg-brand-50"
       >
         Continue Shopping

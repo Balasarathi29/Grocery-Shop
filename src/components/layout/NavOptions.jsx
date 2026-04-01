@@ -1,8 +1,11 @@
 import Container from "../layout/Container";
 import NavOptionCard from "./NavOptionCard";
 import { menuNavItems } from "../../constants/navigation";
+import { useNavigate } from "react-router-dom";
 
-function NavOptions({ onNavigate, onClose }) {
+function NavOptions({ onClose }) {
+  const navigate = useNavigate();
+
   return (
     <section className="fixed inset-0 z-50 overflow-y-auto bg-black/50 backdrop-blur-sm">
       <Container className="py-8">
@@ -27,10 +30,10 @@ function NavOptions({ onNavigate, onClose }) {
           <div className="grid gap-3 p-6 sm:grid-cols-2 sm:p-8">
             {menuNavItems.map((item) => (
               <NavOptionCard
-                key={item.page}
+                key={item.path}
                 item={item}
-                onSelect={(page) => {
-                  onNavigate(page);
+                onSelect={(path) => {
+                  navigate(path);
                   onClose();
                 }}
               />

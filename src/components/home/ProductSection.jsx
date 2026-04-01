@@ -9,7 +9,6 @@ function ProductSection({
   onClearCategory,
   onAddToCart,
   isAuthenticated,
-  onProductClick,
 }) {
   const selectedCategory = categories.find(
     (category) => category.id === selectedCategoryId,
@@ -59,7 +58,6 @@ function ProductSection({
                 product={product}
                 onAddToCart={onAddToCart}
                 isAuthenticated={isAuthenticated}
-                onProductClick={onProductClick}
               />
             ))}
           </div>

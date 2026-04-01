@@ -1,6 +1,10 @@
 import PageShell from "./PageShell";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "../../constants/navigation";
 
-function WishlistPage({ onExploreProducts }) {
+function WishlistPage() {
+  const navigate = useNavigate();
+
   const cards = [
     {
       kicker: "Saved Items",
@@ -29,7 +33,10 @@ function WishlistPage({ onExploreProducts }) {
       subtitle="Collect products you love and revisit them quickly with intelligent reminders and personalized offers."
       gradient="from-rose-100 via-white to-pink-100"
       cards={cards}
-      primaryAction={{ label: "Browse Products", onClick: onExploreProducts }}
+      primaryAction={{
+        label: "Browse Products",
+        onClick: () => navigate(APP_ROUTES.HOME),
+      }}
     />
   );
 }

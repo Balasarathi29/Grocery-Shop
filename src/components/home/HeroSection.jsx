@@ -1,6 +1,10 @@
 import Container from "../layout/Container";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "../../constants/navigation";
 
-function HeroSection({ onShopEssentials, onViewOffers }) {
+function HeroSection() {
+  const navigate = useNavigate();
+
   return (
     <section className="relative overflow-hidden py-12 sm:py-16">
       <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,_#c6f6d5,_transparent_58%),radial-gradient(circle_at_left,_#fed7aa,_transparent_45%)]" />
@@ -19,13 +23,13 @@ function HeroSection({ onShopEssentials, onViewOffers }) {
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <button
-                onClick={onShopEssentials}
+                onClick={() => navigate(APP_ROUTES.ESSENTIALS)}
                 className="rounded-xl bg-brand-700 px-6 py-3 text-sm font-semibold text-white transition hover:bg-brand-800"
               >
                 Shop Essentials
               </button>
               <button
-                onClick={onViewOffers}
+                onClick={() => navigate(APP_ROUTES.OFFERS)}
                 className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-700 transition hover:border-brand-300 hover:text-brand-700"
               >
                 View Offers

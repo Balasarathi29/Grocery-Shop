@@ -1,10 +1,18 @@
 import { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import AuthPanel from "../auth/AuthPanel";
 import AuthField from "../auth/AuthField";
+import { APP_ROUTES } from "../../constants/navigation";
+import { useStorefront } from "../../context/useStorefront";
 
-function LoginPage({ onLogin, onSwitchToRegister, notice }) {
+function LoginPage() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { auth, actions } = useStorefront();
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
+
+  const redirectPath = location.state?.from || APP_ROUTES.HOME;
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -13,7 +21,7 @@ function LoginPage({ onLogin, onSwitchToRegister, notice }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const result = onLogin(form);
+    const result = actions.onLogin(form);
 
     if (!result.ok) {
       setError(result.message);
@@ -22,6 +30,7 @@ function LoginPage({ onLogin, onSwitchToRegister, notice }) {
 
     setError("");
     setForm({ email: "", password: "" });
+    navigate(redirectPath, { replace: true });
   };
 
   const formContent = (
@@ -31,9 +40,9 @@ function LoginPage({ onLogin, onSwitchToRegister, notice }) {
         Access your account to add products into cart.
       </p>
 
-      {notice && (
+      {auth.notice && (
         <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
-          {notice}
+          {auth.notice}
         </p>
       )}
 
@@ -81,7 +90,7 @@ function LoginPage({ onLogin, onSwitchToRegister, notice }) {
       form={formContent}
       footerLabel="New to FreshShelf?"
       footerActionLabel="Create account"
-      onFooterAction={onSwitchToRegister}
+      onFooterAction={() => navigate(APP_ROUTES.REGISTER)}
     />
   );
 }

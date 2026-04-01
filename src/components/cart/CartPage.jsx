@@ -3,15 +3,12 @@ import CartHeader from "./CartHeader";
 import EmptyCartState from "./EmptyCartState";
 import CartItemCard from "./CartItemCard";
 import CartSummary from "./CartSummary";
+import { useStorefront } from "../../context/useStorefront";
 
-function CartPage({
-  cartItems,
-  onContinueShopping,
-  onIncreaseQuantity,
-  onDecreaseQuantity,
-  onRemoveItem,
-  onClearCart,
-}) {
+function CartPage() {
+  const { cart, actions } = useStorefront();
+  const { cartItems } = cart;
+
   const subtotal = cartItems.reduce(
     (total, item) => total + item.price * item.quantity,
     0,
@@ -29,10 +26,10 @@ function CartPage({
   return (
     <section className="py-10 sm:py-12">
       <Container>
-        <CartHeader onContinueShopping={onContinueShopping} />
+        <CartHeader />
 
         {cartItems.length === 0 ? (
-          <EmptyCartState onContinueShopping={onContinueShopping} />
+          <EmptyCartState />
         ) : (
           <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
             <div className="space-y-4">
@@ -40,14 +37,14 @@ function CartPage({
                 <CartItemCard
                   key={item.id}
                   item={item}
-                  onIncreaseQuantity={onIncreaseQuantity}
-                  onDecreaseQuantity={onDecreaseQuantity}
-                  onRemoveItem={onRemoveItem}
+                  onIncreaseQuantity={actions.onIncreaseQuantity}
+                  onDecreaseQuantity={actions.onDecreaseQuantity}
+                  onRemoveItem={actions.onRemoveItem}
                 />
               ))}
 
               <button
-                onClick={onClearCart}
+                onClick={actions.onClearCart}
                 className="text-sm font-semibold text-slate-500 transition hover:text-slate-700"
               >
                 Clear entire cart

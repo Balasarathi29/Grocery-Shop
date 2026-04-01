@@ -1,4 +1,24 @@
-function OfferDealCard({ deal, onProductClick, onAddToCart, isAuthenticated }) {
+import { useLocation, useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "../../constants/navigation";
+
+function OfferDealCard({ deal, onAddToCart, isAuthenticated }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const openProduct = () => {
+    navigate(APP_ROUTES.productDetail(deal.product.id));
+  };
+
+  const handleAddToCart = () => {
+    const added = onAddToCart(deal.product);
+
+    if (!added) {
+      navigate(APP_ROUTES.LOGIN, {
+        state: { from: `${location.pathname}${location.search}` },
+      });
+    }
+  };
+
   return (
     <article className="group rounded-2xl border border-orange-100 bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-xl">
       <div className="mb-4 flex items-center justify-between">
@@ -11,7 +31,7 @@ function OfferDealCard({ deal, onProductClick, onAddToCart, isAuthenticated }) {
       </div>
 
       <button
-        onClick={() => onProductClick(deal.product)}
+        onClick={openProduct}
         className={`mb-4 flex h-24 w-full items-center justify-center rounded-2xl bg-gradient-to-br ${deal.product.palette}`}
       >
         <span className="text-4xl font-display font-semibold text-slate-700">
@@ -20,7 +40,7 @@ function OfferDealCard({ deal, onProductClick, onAddToCart, isAuthenticated }) {
       </button>
 
       <button
-        onClick={() => onProductClick(deal.product)}
+        onClick={openProduct}
         className="line-clamp-2 text-left text-lg font-bold text-slate-900 transition hover:text-orange-700"
       >
         {deal.product.name}
@@ -42,7 +62,7 @@ function OfferDealCard({ deal, onProductClick, onAddToCart, isAuthenticated }) {
       </div>
 
       <button
-        onClick={() => onAddToCart(deal.product)}
+        onClick={handleAddToCart}
         className={`mt-4 w-full rounded-xl py-2.5 text-sm font-semibold text-white transition ${
           isAuthenticated
             ? "bg-orange-600 hover:bg-orange-700"

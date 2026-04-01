@@ -1,4 +1,9 @@
-function OfferHeroBanner({ onShopEssentials, dealCount }) {
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "../../constants/navigation";
+
+function OfferHeroBanner({ dealCount }) {
+  const navigate = useNavigate();
+
   return (
     <div className="relative overflow-hidden rounded-3xl border border-orange-200 bg-[linear-gradient(120deg,#fff7ed_0%,#ffedd5_35%,#fde68a_100%)] p-6 shadow-soft sm:p-10">
       <div className="absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/50 blur-2xl" />
@@ -17,7 +22,7 @@ function OfferHeroBanner({ onShopEssentials, dealCount }) {
 
       <div className="relative z-10 mt-6 flex flex-wrap items-center gap-3">
         <button
-          onClick={onShopEssentials}
+          onClick={() => navigate(APP_ROUTES.ESSENTIALS)}
           className="rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-800"
         >
           Back to Essentials
