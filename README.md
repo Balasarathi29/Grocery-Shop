@@ -1,16 +1,29 @@
-# React + Vite
+# E-Commerce App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The repository is split into [frontend/](frontend) for the Vite React app and [backend/](backend) for the Node.js, Express, and MongoDB API.
 
-Currently, two official plugins are available:
+## Backend
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The API in [backend/](backend) exposes:
 
-## React Compiler
+- `GET /api/health`
+- `GET /api/catalog`
+- `GET /api/categories`
+- `GET /api/products`
+- `POST /api/categories`
+- `POST /api/products`
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+It seeds the current catalog into MongoDB on startup when the collections are empty.
 
-## Expanding the ESLint configuration
+## Setup
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Install frontend dependencies inside [frontend/](frontend).
+2. Install backend dependencies inside [backend/](backend).
+3. Copy [backend/.env.example](backend/.env.example) to [backend/.env](backend/.env) and set `MONGODB_URI`.
+
+## Run
+
+- Frontend: `cd frontend && npm run dev`
+- Backend: `cd backend && npm run dev`
+
+The frontend Vite dev server proxies `/api` requests to `http://localhost:5000`, so frontend fetches can use relative API URLs.
