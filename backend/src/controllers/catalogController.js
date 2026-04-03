@@ -1,6 +1,9 @@
 import { Category } from "../models/Category.js";
 import { Product } from "../models/Product.js";
 
+const fallbackImage = (product) =>
+  `https://picsum.photos/seed/freshshelf-${product.slug || product.legacyId}/640/480`;
+
 const categoryToResponse = (category) => ({
   id: category.code,
   code: category.code,
@@ -17,12 +20,15 @@ const productToResponse = (product) => ({
   mrp: product.mrp,
   badge: product.badge,
   palette: product.palette,
+  imageUrl: product.imageUrl || fallbackImage(product),
   description: product.description,
   specifications: product.specifications,
   highlights: product.highlights,
   inStock: product.inStock,
   rating: product.rating,
   reviews: product.reviews,
+  featuredOffer: product.featuredOffer,
+  offerPriority: product.offerPriority,
 });
 
 export async function getCatalog(_request, response, next) {

@@ -34,6 +34,8 @@ export const products = [
     inStock: true,
     rating: 4.8,
     reviews: 234,
+    featuredOffer: true,
+    offerPriority: 8,
   },
   {
     legacyId: 2,
@@ -61,6 +63,8 @@ export const products = [
     inStock: true,
     rating: 4.9,
     reviews: 512,
+    featuredOffer: true,
+    offerPriority: 10,
   },
   {
     legacyId: 3,
@@ -88,6 +92,8 @@ export const products = [
     inStock: true,
     rating: 4.7,
     reviews: 345,
+    featuredOffer: true,
+    offerPriority: 9,
   },
   {
     legacyId: 4,
@@ -115,6 +121,8 @@ export const products = [
     inStock: true,
     rating: 4.6,
     reviews: 189,
+    featuredOffer: true,
+    offerPriority: 7,
   },
   {
     legacyId: 5,
@@ -137,6 +145,8 @@ export const products = [
     inStock: true,
     rating: 4.8,
     reviews: 423,
+    featuredOffer: false,
+    offerPriority: 0,
   },
   {
     legacyId: 6,
@@ -164,5 +174,7 @@ export const products = [
     inStock: true,
     rating: 4.7,
     reviews: 156,
+    featuredOffer: true,
+    offerPriority: 6,
   },
 ];

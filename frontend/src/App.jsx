@@ -24,6 +24,7 @@ function StorefrontLayout() {
       <Navbar
         cartCount={cart.cartCount}
         isAuthenticated={auth.isAuthenticated}
+        isAdmin={auth.isAdmin}
         userName={auth.user?.fullName}
         onLogout={handleLogout}
         onMenuClick={actions.onMenuOpen}
@@ -31,7 +32,9 @@ function StorefrontLayout() {
       <main>
         <PageRouter />
       </main>
-      {ui.showNavOptions && <NavOptions onClose={actions.onMenuClose} />}
+      {ui.showNavOptions && (
+        <NavOptions isAdmin={auth.isAdmin} onClose={actions.onMenuClose} />
+      )}
       <Footer />
     </div>
   );

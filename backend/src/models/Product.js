@@ -7,6 +7,9 @@ const createSlug = (value) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
+const createImageUrl = (slugOrId) =>
+  `https://picsum.photos/seed/freshshelf-${slugOrId}/640/480`;
+
 const productSchema = new Schema(
   {
     legacyId: {
@@ -60,6 +63,11 @@ const productSchema = new Schema(
       default: "",
       trim: true,
     },
+    imageUrl: {
+      type: String,
+      default: "",
+      trim: true,
+    },
     description: {
       type: String,
       required: true,
@@ -90,6 +98,17 @@ const productSchema = new Schema(
       default: 0,
       min: 0,
     },
+    featuredOffer: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
+    offerPriority: {
+      type: Number,
+      default: 0,
+      min: 0,
+      index: true,
+    },
   },
   {
     timestamps: true,
@@ -99,6 +118,10 @@ const productSchema = new Schema(
 productSchema.pre("validate", function preValidateProduct(next) {
   if (!this.slug) {
     this.slug = createSlug(this.name) || `product-${this.legacyId}`;
+  }
+
+  if (!this.imageUrl) {
+    this.imageUrl = createImageUrl(this.slug || this.legacyId);
   }
 
   next();

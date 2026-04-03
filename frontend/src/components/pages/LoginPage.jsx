@@ -30,7 +30,9 @@ function LoginPage() {
 
     setError("");
     setForm({ email: "", password: "" });
-    navigate(redirectPath, { replace: true });
+    navigate(result.user?.role === "admin" ? APP_ROUTES.ADMIN : redirectPath, {
+      replace: true,
+    });
   };
 
   const formContent = (

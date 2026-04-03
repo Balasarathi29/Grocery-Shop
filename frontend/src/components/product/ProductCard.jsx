@@ -27,15 +27,24 @@ function ProductCard({ product, onAddToCart, isAuthenticated }) {
     <article className="group rounded-2xl border border-brand-100 bg-white p-4 shadow-soft transition hover:-translate-y-1 hover:shadow-xl">
       <button
         onClick={openProduct}
-        className="mb-4 block h-28 w-full rounded-2xl bg-gradient-to-br"
+        className="mb-4 block h-28 w-full overflow-hidden rounded-2xl bg-gradient-to-br"
       >
-        <div
-          className={`flex h-28 w-full items-center justify-center rounded-2xl bg-gradient-to-br ${product.palette}`}
-        >
-          <span className="text-4xl font-display font-semibold text-slate-700">
-            {product.name[0]}
-          </span>
-        </div>
+        {product.imageUrl ? (
+          <img
+            src={product.imageUrl}
+            alt={product.name}
+            className="h-28 w-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div
+            className={`flex h-28 w-full items-center justify-center rounded-2xl bg-gradient-to-br ${product.palette}`}
+          >
+            <span className="text-4xl font-display font-semibold text-slate-700">
+              {product.name[0]}
+            </span>
+          </div>
+        )}
       </button>
 
       <p className="mb-1 text-xs font-bold uppercase tracking-[0.18em] text-brand-700">

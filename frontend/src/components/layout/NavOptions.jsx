@@ -3,8 +3,11 @@ import NavOptionCard from "./NavOptionCard";
 import { menuNavItems } from "../../constants/navigation";
 import { useNavigate } from "react-router-dom";
 
-function NavOptions({ onClose }) {
+function NavOptions({ isAdmin, onClose }) {
   const navigate = useNavigate();
+  const visibleItems = menuNavItems.filter(
+    (item) => !item.requiresAdmin || isAdmin,
+  );
 
   return (
     <section className="fixed inset-0 z-50 overflow-y-auto bg-black/50 backdrop-blur-sm">
@@ -28,7 +31,7 @@ function NavOptions({ onClose }) {
           </div>
 
           <div className="grid gap-3 p-6 sm:grid-cols-2 sm:p-8">
-            {menuNavItems.map((item) => (
+            {visibleItems.map((item) => (
               <NavOptionCard
                 key={item.path}
                 item={item}

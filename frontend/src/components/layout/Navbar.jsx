@@ -5,6 +5,7 @@ import { APP_ROUTES, desktopNavItems } from "../../constants/navigation";
 function Navbar({
   cartCount,
   isAuthenticated,
+  isAdmin,
   userName,
   onLogout,
   onMenuClick,
@@ -68,6 +69,14 @@ function Navbar({
               <span className="text-xs font-semibold text-slate-600">
                 Hi, {userName?.split(" ")[0] || "Member"}
               </span>
+              {isAdmin && (
+                <button
+                  onClick={() => navigate(APP_ROUTES.ADMIN)}
+                  className="rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-semibold text-emerald-700 transition hover:bg-emerald-100"
+                >
+                  Admin Panel
+                </button>
+              )}
               <button
                 onClick={onLogout}
                 className="rounded-xl border border-brand-200 bg-white px-3 py-2 text-xs font-semibold text-brand-700 transition hover:bg-brand-50"

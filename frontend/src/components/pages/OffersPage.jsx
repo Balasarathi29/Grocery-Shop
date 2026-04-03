@@ -10,6 +10,7 @@ function OffersPage() {
   const { auth, catalog, actions } = useStorefront();
 
   const dealCards = [...catalog.allProducts]
+    .filter((product) => product.featuredOffer || product.mrp > product.price)
     .map((product) => {
       const savings = product.mrp - product.price;
       const discount = Math.round((savings / product.mrp) * 100);
@@ -21,7 +22,20 @@ function OffersPage() {
         discount,
       };
     })
-    .sort((a, b) => b.savings - a.savings)
+    .sort((a, b) => {
+      const featuredScoreA = Number(Boolean(a.product.featuredOffer));
+      const featuredScoreB = Number(Boolean(b.product.featuredOffer));
+
+      if (featuredScoreA !== featuredScoreB) {
+        return featuredScoreB - featuredScoreA;
+      }
+
+      if (b.product.offerPriority !== a.product.offerPriority) {
+        return b.product.offerPriority - a.product.offerPriority;
+      }
+
+      return b.savings - a.savings;
+    })
     .slice(0, 6);
 
   const spotlightDeals = dealCards.slice(0, 2);

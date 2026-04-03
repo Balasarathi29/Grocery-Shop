@@ -32,11 +32,24 @@ function OfferDealCard({ deal, onAddToCart, isAuthenticated }) {
 
       <button
         onClick={openProduct}
-        className={`mb-4 flex h-24 w-full items-center justify-center rounded-2xl bg-gradient-to-br ${deal.product.palette}`}
+        className="mb-4 block h-24 w-full overflow-hidden rounded-2xl"
       >
-        <span className="text-4xl font-display font-semibold text-slate-700">
-          {deal.product.name[0]}
-        </span>
+        {deal.product.imageUrl ? (
+          <img
+            src={deal.product.imageUrl}
+            alt={deal.product.name}
+            className="h-24 w-full object-cover"
+            loading="lazy"
+          />
+        ) : (
+          <div
+            className={`flex h-24 w-full items-center justify-center rounded-2xl bg-gradient-to-br ${deal.product.palette}`}
+          >
+            <span className="text-4xl font-display font-semibold text-slate-700">
+              {deal.product.name[0]}
+            </span>
+          </div>
+        )}
       </button>
 
       <button

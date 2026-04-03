@@ -46,6 +46,10 @@ function AdminRoute() {
     );
   }
 
+  if (!auth.isAdmin) {
+    return <Navigate to={APP_ROUTES.ACCOUNT} replace />;
+  }
+
   return <AdminPage />;
 }
 
