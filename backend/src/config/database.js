@@ -1,8 +1,14 @@
 import mongoose from "mongoose";
 
+const DEFAULT_MONGODB_URI = "mongodb://127.0.0.1:27017/freshshelf";
+
 export async function connectDatabase(connectionString) {
-  if (!connectionString) {
-    throw new Error("MONGODB_URI is required.");
+  const uri = connectionString || DEFAULT_MONGODB_URI;
+
+  if (!uri) {
+    throw new Error(
+      "No MongoDB URI is configured. Set MONGODB_URI in backend/.env.",
+    );
   }
 
   mongoose.set("strictQuery", true);
@@ -11,7 +17,13 @@ export async function connectDatabase(connectionString) {
     return mongoose.connection;
   }
 
-  await mongoose.connect(connectionString, {
+  if (!connectionString) {
+    console.warn(
+      `MONGODB_URI is not set. Falling back to local MongoDB at ${DEFAULT_MONGODB_URI}.`,
+    );
+  }
+
+  await mongoose.connect(uri, {
     autoIndex: true,
   });
 

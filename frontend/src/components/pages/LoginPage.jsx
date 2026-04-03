@@ -19,9 +19,9 @@ function LoginPage() {
     setForm((previous) => ({ ...previous, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const result = actions.onLogin(form);
+    const result = await actions.onLogin(form);
 
     if (!result.ok) {
       setError(result.message);
@@ -38,6 +38,10 @@ function LoginPage() {
       <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Login</h2>
       <p className="mt-1 text-sm text-slate-600">
         Access your account to add products into cart.
+      </p>
+
+      <p className="mt-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-medium text-emerald-800">
+        Authentication is validated by the backend.
       </p>
 
       {auth.notice && (

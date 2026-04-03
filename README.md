@@ -10,10 +10,26 @@ The API in [backend/](backend) exposes:
 - `GET /api/catalog`
 - `GET /api/categories`
 - `GET /api/products`
+- `POST /api/auth/register`
+- `POST /api/auth/login`
+- `GET /api/auth/me`
 - `POST /api/categories`
 - `POST /api/products`
 
 It seeds the current catalog into MongoDB on startup when the collections are empty.
+
+The backend seeds an admin account for catalog management:
+
+- Email: `admin@freshshelf.local`
+- Password: `Admin@12345`
+- Admin dashboard: `/admin`
+
+Authentication is backend-owned now:
+
+- Register: `POST /api/auth/register`
+- Login: `POST /api/auth/login`
+- Session restore: `GET /api/auth/me` (Bearer token)
+- Admin credentials are seeded from `backend/.env` values (`ADMIN_EMAIL`, `ADMIN_PASSWORD`, etc.)
 
 ## Setup
 

@@ -1,105 +1,135 @@
 import { useEffect, useMemo, useState } from "react";
+import { requestJson } from "../utils/api";
 
-const USERS_STORAGE_KEY = "freshshelf-users";
-const SESSION_STORAGE_KEY = "freshshelf-session-user";
+const AUTH_TOKEN_STORAGE_KEY = "freshshelf-auth-token";
 
-const readJson = (key, fallback) => {
-  try {
-    const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : fallback;
-  } catch {
-    return fallback;
+const getStoredToken = () => localStorage.getItem(AUTH_TOKEN_STORAGE_KEY) || "";
+
+const setStoredToken = (token) => {
+  if (!token) {
+    localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
+    return;
   }
-};
 
-const writeJson = (key, value) => {
-  localStorage.setItem(key, JSON.stringify(value));
+  localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token);
 };
 
 function useAuth() {
-  const [users, setUsers] = useState(() => readJson(USERS_STORAGE_KEY, []));
-  const [sessionUser, setSessionUser] = useState(() =>
-    readJson(SESSION_STORAGE_KEY, null),
-  );
+  const [sessionUser, setSessionUser] = useState(null);
+  const [isBootstrapping, setIsBootstrapping] = useState(true);
 
   useEffect(() => {
-    writeJson(USERS_STORAGE_KEY, users);
-  }, [users]);
+    let isMounted = true;
 
-  useEffect(() => {
-    if (sessionUser) {
-      writeJson(SESSION_STORAGE_KEY, sessionUser);
-      return;
-    }
+    const restoreSession = async () => {
+      const token = getStoredToken();
 
-    localStorage.removeItem(SESSION_STORAGE_KEY);
-  }, [sessionUser]);
+      if (!token) {
+        if (isMounted) {
+          setSessionUser(null);
+          setIsBootstrapping(false);
+        }
+        return;
+      }
+
+      try {
+        const result = await requestJson("/api/auth/me");
+
+        if (!isMounted) {
+          return;
+        }
+
+        setSessionUser(result.user || null);
+      } catch {
+        if (!isMounted) {
+          return;
+        }
+
+        setStoredToken("");
+        setSessionUser(null);
+      } finally {
+        if (isMounted) {
+          setIsBootstrapping(false);
+        }
+      }
+    };
+
+    restoreSession();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const isAuthenticated = useMemo(() => Boolean(sessionUser), [sessionUser]);
+  const isAdmin = useMemo(() => sessionUser?.role === "admin", [sessionUser]);
 
-  const register = ({ fullName, email, phone, password }) => {
-    const normalizedEmail = email.trim().toLowerCase();
+  const register = async ({ fullName, email, phone, password }) => {
+    try {
+      const result = await requestJson("/api/auth/register", {
+        method: "POST",
+        body: {
+          fullName,
+          email,
+          phone,
+          password,
+        },
+        auth: false,
+      });
 
-    if (users.some((user) => user.email === normalizedEmail)) {
+      setStoredToken(result.token || "");
+      setSessionUser(result.user || null);
+
+      return {
+        ok: true,
+        message: "Account created successfully.",
+        user: result.user,
+      };
+    } catch (error) {
       return {
         ok: false,
-        message: "An account with this email already exists.",
+        message: error.message || "Unable to register right now.",
       };
     }
-
-    const createdUser = {
-      id: `user-${Date.now()}`,
-      fullName: fullName.trim(),
-      email: normalizedEmail,
-      phone: phone.trim(),
-      password,
-    };
-
-    setUsers((previous) => [...previous, createdUser]);
-    setSessionUser({
-      id: createdUser.id,
-      fullName: createdUser.fullName,
-      email: createdUser.email,
-    });
-
-    return {
-      ok: true,
-      message: "Account created successfully.",
-    };
   };
 
-  const login = ({ email, password }) => {
-    const normalizedEmail = email.trim().toLowerCase();
-    const matchedUser = users.find(
-      (user) => user.email === normalizedEmail && user.password === password,
-    );
+  const login = async ({ email, password }) => {
+    try {
+      const result = await requestJson("/api/auth/login", {
+        method: "POST",
+        body: {
+          email,
+          password,
+        },
+        auth: false,
+      });
 
-    if (!matchedUser) {
+      setStoredToken(result.token || "");
+      setSessionUser(result.user || null);
+
+      return {
+        ok: true,
+        message: "Welcome back.",
+        user: result.user,
+      };
+    } catch (error) {
       return {
         ok: false,
-        message: "Invalid email or password.",
+        message: error.message || "Invalid email or password.",
       };
     }
-
-    setSessionUser({
-      id: matchedUser.id,
-      fullName: matchedUser.fullName,
-      email: matchedUser.email,
-    });
-
-    return {
-      ok: true,
-      message: "Welcome back.",
-    };
   };
 
   const logout = () => {
+    setStoredToken("");
     setSessionUser(null);
   };
 
   return {
     user: sessionUser,
     isAuthenticated,
+    isAdmin,
+    isBootstrapping,
     login,
     register,
     logout,

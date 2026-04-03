@@ -12,6 +12,7 @@ export const APP_ROUTES = {
   ACCOUNT: "/account",
   HELP: "/help",
   SETTINGS: "/settings",
+  ADMIN: "/admin",
   PRODUCT_DETAIL: "/products/:productId",
   productDetail: (productId) => `/products/${productId}`,
 };
@@ -83,5 +84,12 @@ export const menuNavItems = [
     label: "Settings",
     path: APP_ROUTES.SETTINGS,
     description: "App preferences",
+  },
+  {
+    icon: "🛠️",
+    label: "Admin Panel",
+    path: APP_ROUTES.ADMIN,
+    description: "Manage products and categories",
+    requiresAdmin: true,
   },
 ];

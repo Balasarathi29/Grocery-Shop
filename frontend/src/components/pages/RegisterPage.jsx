@@ -21,9 +21,9 @@ function RegisterPage() {
     setForm((previous) => ({ ...previous, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    const result = actions.onRegister(form);
+    const result = await actions.onRegister(form);
 
     if (!result.ok) {
       setError(result.message);
@@ -45,6 +45,10 @@ function RegisterPage() {
       <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Register</h2>
       <p className="mt-1 text-sm text-slate-600">
         Create an account to start adding items to your cart.
+      </p>
+
+      <p className="mt-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-800">
+        Account creation is handled by backend user APIs.
       </p>
 
       {error && (

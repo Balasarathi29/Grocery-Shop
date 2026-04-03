@@ -4,11 +4,12 @@ import {
   getCategoryByCode,
   listCategories,
 } from "../controllers/categoryController.js";
+import { requireAdmin, requireAuth } from "../middleware/auth.js";
 
 const router = Router();
 
 router.get("/", listCategories);
-router.post("/", createCategory);
+router.post("/", requireAuth, requireAdmin, createCategory);
 router.get("/:code", getCategoryByCode);
 
 export default router;

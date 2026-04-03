@@ -1,5 +1,12 @@
 import { Schema, model } from "mongoose";
 
+const createSlug = (value) =>
+  String(value || "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
 const productSchema = new Schema(
   {
     legacyId: {
@@ -14,6 +21,9 @@ const productSchema = new Schema(
       unique: true,
       trim: true,
       lowercase: true,
+      default() {
+        return createSlug(this.name) || `product-${this.legacyId}`;
+      },
     },
     name: {
       type: String,
@@ -85,5 +95,13 @@ const productSchema = new Schema(
     timestamps: true,
   },
 );
+
+productSchema.pre("validate", function preValidateProduct(next) {
+  if (!this.slug) {
+    this.slug = createSlug(this.name) || `product-${this.legacyId}`;
+  }
+
+  next();
+});
 
 export const Product = model("Product", productSchema);

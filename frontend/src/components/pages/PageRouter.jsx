@@ -10,10 +10,12 @@ import LoginPage from "./LoginPage";
 import RegisterPage from "./RegisterPage";
 import HelpPage from "./HelpPage";
 import SettingsPage from "./SettingsPage";
+import AdminPage from "./AdminPage";
 import CartPage from "../cart/CartPage";
 import ProductDetailsPage from "../product/ProductDetailsPage";
 import { APP_ROUTES } from "../../constants/navigation";
 import { useStorefront } from "../../context/useStorefront";
+import { useLocation } from "react-router-dom";
 
 function ProductDetailsRoute() {
   const { productId } = useParams();
@@ -28,6 +30,23 @@ function ProductDetailsRoute() {
   }
 
   return <ProductDetailsPage product={product} />;
+}
+
+function AdminRoute() {
+  const location = useLocation();
+  const { auth } = useStorefront();
+
+  if (!auth.isAuthenticated) {
+    return (
+      <Navigate
+        to={APP_ROUTES.LOGIN}
+        state={{ from: location.pathname }}
+        replace
+      />
+    );
+  }
+
+  return <AdminPage />;
 }
 
 function PageRouter() {
@@ -45,6 +64,7 @@ function PageRouter() {
       <Route path={APP_ROUTES.CONTACT} element={<ContactPage />} />
       <Route path={APP_ROUTES.WISHLIST} element={<WishlistPage />} />
       <Route path={APP_ROUTES.ACCOUNT} element={<AccountPage />} />
+      <Route path={APP_ROUTES.ADMIN} element={<AdminRoute />} />
       <Route path={APP_ROUTES.LOGIN} element={<LoginPage />} />
       <Route path={APP_ROUTES.REGISTER} element={<RegisterPage />} />
       <Route path={APP_ROUTES.HELP} element={<HelpPage />} />
