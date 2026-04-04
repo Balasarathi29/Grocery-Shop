@@ -1,15 +1,22 @@
 import Container from "../layout/Container";
 import SectionTitle from "../ui/SectionTitle";
 import ProductCard from "../product/ProductCard";
+import { useMemo } from "react";
+import { useNavigate } from "react-router-dom";
+import { APP_ROUTES } from "../../constants/navigation";
 
 function ProductSection({
   products,
+  allProducts,
   selectedCategoryId,
   categories,
+  categoryContent,
   onClearCategory,
   onAddToCart,
   isAuthenticated,
 }) {
+  const navigate = useNavigate();
+
   const selectedCategory = categories.find(
     (category) => category.id === selectedCategoryId,
   );
@@ -22,9 +29,60 @@ function ProductSection({
     ? `Showing curated products for ${selectedCategory.name}.`
     : "High-demand products with fresh stock and smart prices.";
 
+  const topDeals = useMemo(
+    () =>
+      [...allProducts]
+        .filter(
+          (product) => product.mrp > product.price || product.featuredOffer,
+        )
+        .sort((a, b) => {
+          const discountA = a.mrp - a.price;
+          const discountB = b.mrp - b.price;
+          return discountB - discountA;
+        })
+        .slice(0, 4),
+    [allProducts],
+  );
+
   return (
-    <section className="py-10">
+    <section className="py-8 sm:py-10">
       <Container>
+        {topDeals.length > 0 && (
+          <div className="mb-6 rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-4">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-bold uppercase tracking-[0.13em] text-amber-800">
+                Deals For You
+              </p>
+              <span className="rounded-full bg-white px-3 py-1 text-[11px] font-semibold text-amber-700">
+                Save More Today
+              </span>
+            </div>
+
+            <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
+              {topDeals.map((product) => (
+                <button
+                  key={`deal-${product.id}`}
+                  onClick={() => navigate(APP_ROUTES.productDetail(product.id))}
+                  className="rounded-xl border border-amber-200 bg-white px-3 py-3 text-left transition hover:-translate-y-0.5 hover:border-amber-300"
+                >
+                  <p className="line-clamp-1 text-sm font-semibold text-slate-900">
+                    {product.name}
+                  </p>
+                  <p className="mt-1 text-xs text-slate-500">{product.unit}</p>
+                  <p className="mt-2 text-sm font-bold text-emerald-700">
+                    Rs. {product.price}
+                  </p>
+                  <p className="text-xs text-slate-400 line-through">
+                    Rs. {product.mrp}
+                  </p>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {categoryContent}
+
         <SectionTitle eyebrow="Featured" title={title} subtitle={subtitle} />
 
         {selectedCategory && (

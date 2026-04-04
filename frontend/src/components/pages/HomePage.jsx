@@ -37,15 +37,19 @@ function HomePage() {
   return (
     <>
       <HeroSection />
-      <CategorySection
-        categories={catalog.categories}
-        selectedCategoryId={catalog.selectedCategoryId}
-        onCategorySelect={handleCategorySelect}
-      />
+
       <ProductSection
         products={catalog.products}
+        allProducts={catalog.allProducts}
         selectedCategoryId={catalog.selectedCategoryId}
         categories={catalog.categories}
+        categoryContent={
+          <CategorySection
+            categories={catalog.categories}
+            selectedCategoryId={catalog.selectedCategoryId}
+            onCategorySelect={handleCategorySelect}
+          />
+        }
         onClearCategory={handleClearCategory}
         onAddToCart={actions.onAddToCart}
         isAuthenticated={auth.isAuthenticated}
