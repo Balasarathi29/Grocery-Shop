@@ -6,7 +6,7 @@ function HeroSection() {
   const navigate = useNavigate();
 
   return (
-    <section className="relative overflow-hidden py-6 sm:py-12 lg:py-16">
+    <section className="relative overflow-hidden pt-6 sm:pt-12 lg:pt-16">
       <div className="absolute inset-0 -z-20 bg-[radial-gradient(circle_at_100%_0%,_#bbf7d0,_transparent_45%),radial-gradient(circle_at_0%_70%,_#fde68a,_transparent_40%),linear-gradient(180deg,_#f7fff9_0%,_#ffffff_100%)]" />
       <div className="pointer-events-none absolute -left-16 top-10 -z-10 h-44 w-44 rounded-full bg-brand-200/40 blur-3xl" />
       <div className="pointer-events-none absolute -right-16 bottom-4 -z-10 h-48 w-48 rounded-full bg-amber-200/40 blur-3xl" />

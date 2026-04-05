@@ -45,7 +45,7 @@ function ProductSection({
   );
 
   return (
-    <section className="py-8 sm:py-10">
+    <section className="mt-6 py-6 sm:py-10">
       <Container>
         {topDeals.length > 0 && (
           <div className="mb-6 rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-50 to-orange-50 p-4">
