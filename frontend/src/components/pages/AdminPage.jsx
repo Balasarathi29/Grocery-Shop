@@ -166,6 +166,30 @@ function AdminPage() {
     }
   };
 
+  const updateOfferPriority = async (product, delta) => {
+    try {
+      setIsSaving(true);
+      setError("");
+
+      const nextPriority = Math.max(0, (product.offerPriority || 0) + delta);
+
+      await requestJson(`/api/products/${product.id}`, {
+        method: "PATCH",
+        body: {
+          featuredOffer: true,
+          offerPriority: nextPriority,
+        },
+      });
+
+      await actions.onRefreshCatalog();
+      setStatus(`${product.name} priority updated to ${nextPriority}.`);
+    } catch (requestError) {
+      setError(requestError.message);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <section className="relative overflow-hidden py-10 sm:py-12">
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.14),_transparent_30%),linear-gradient(180deg,_#f8fafc_0%,_#eef2ff_100%)]" />
@@ -201,7 +225,7 @@ function AdminPage() {
           </p>
         )}
 
-        <div className="mt-6 grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
+        <div className="mt-6 grid gap-6">
           <ProductEditorCard
             form={productForm}
             onChange={handleChange}
@@ -212,7 +236,14 @@ function AdminPage() {
             isEditing={Boolean(selectedProductId)}
           />
 
-          <OfferControlCard featuredProducts={featuredProducts} />
+          <div className="w-full">
+            <OfferControlCard
+              featuredProducts={featuredProducts}
+              onEditProduct={syncEditorFromProduct}
+              onToggleFeatured={toggleFeatured}
+              onAdjustPriority={updateOfferPriority}
+            />
+          </div>
         </div>
 
         <div className="mt-6">
