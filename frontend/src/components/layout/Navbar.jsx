@@ -24,11 +24,11 @@ function Navbar({
           aria-label="Go to home page"
         >
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-brand-600 text-sm font-bold text-white shadow-soft">
-            FS
+            J
           </span>
           <div>
             <p className="font-display text-lg leading-none text-brand-900">
-              FreshShelf
+              Jothi
             </p>
             <p className="text-xs text-slate-500">Neighborhood Grocery</p>
           </div>

@@ -106,7 +106,7 @@ function RegisterPage() {
   return (
     <AuthPanel
       eyebrow="Get Started"
-      title="Join FreshShelf Today"
+      title="Join Jothi Today"
       subtitle="Register once and enjoy faster checkout, personalized offers, and smooth re-ordering."
       form={formContent}
       footerLabel="Already have an account?"

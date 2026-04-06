@@ -45,7 +45,7 @@ function NavOptions({ isAdmin, onClose }) {
 
           <div className="border-t border-brand-100 bg-brand-50 p-6 text-center sm:p-8">
             <p className="text-xs text-slate-600">
-              FreshShelf - Your neighborhood grocery store
+              Jothi - Your neighborhood grocery store
             </p>
             <p className="mt-2 text-xs text-slate-500">
               Open daily 6:00 AM - 10:00 PM | Free delivery above Rs. 499

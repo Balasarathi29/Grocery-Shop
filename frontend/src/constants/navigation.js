@@ -59,7 +59,7 @@ export const menuNavItems = [
     icon: "✨",
     label: "Register",
     path: APP_ROUTES.REGISTER,
-    description: "Create your FreshShelf account",
+    description: "Create your Jothi account",
   },
   {
     icon: "🎯",

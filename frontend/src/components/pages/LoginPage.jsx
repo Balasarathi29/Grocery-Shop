@@ -91,10 +91,10 @@ function LoginPage() {
   return (
     <AuthPanel
       eyebrow="Welcome Back"
-      title="Sign in to FreshShelf"
+      title="Sign in to Jothi"
       subtitle="Login customers can add products to cart, checkout faster, and track orders in one place."
       form={formContent}
-      footerLabel="New to FreshShelf?"
+      footerLabel="New to Jothi?"
       footerActionLabel="Create account"
       onFooterAction={() => navigate(APP_ROUTES.REGISTER)}
     />

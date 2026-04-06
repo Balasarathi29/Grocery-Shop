@@ -129,7 +129,7 @@ function ProductEditorCard({
           <img
             src={
               form.imageUrl ||
-              "https://picsum.photos/seed/freshshelf-preview/640/480"
+              "https://picsum.photos/seed/jothi-preview/640/480"
             }
             alt="Product preview"
             className="h-40 w-full rounded-xl object-cover"

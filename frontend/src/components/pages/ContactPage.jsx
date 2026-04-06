@@ -11,13 +11,13 @@ function ContactPage() {
     },
     {
       label: "Email Team",
-      value: "support@freshshelf.in",
-      href: "mailto:support@freshshelf.in",
+      value: "support@jothi.in",
+      href: "mailto:support@jothi.in",
       note: "Replies usually within 20 minutes",
     },
     {
       label: "Visit Store",
-      value: "FreshShelf Hub, Chennai",
+      value: "Jothi Hub, Chennai",
       href: "#",
       note: "In-store desk open till 9:30 PM",
     },
