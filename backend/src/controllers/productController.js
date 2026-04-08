@@ -93,6 +93,14 @@ const parseSpecifications = (value) => {
   return [];
 };
 
+const getNextLegacyId = async () => {
+  const lastProduct = await Product.findOne({}, { legacyId: 1 })
+    .sort({ legacyId: -1 })
+    .lean();
+
+  return (lastProduct?.legacyId || 0) + 1;
+};
+
 export async function listProducts(request, response, next) {
   try {
     const { category, search, inStock } = request.query;
@@ -141,7 +149,6 @@ export async function createProduct(request, response, next) {
   try {
     const payload = request.body;
     const requiredFields = [
-      "legacyId",
       "name",
       "categoryCodes",
       "unit",
@@ -165,12 +172,24 @@ export async function createProduct(request, response, next) {
       throw new Error(`Missing required fields: ${missingFields.join(", ")}.`);
     }
 
+    const suppliedLegacyId = payload.legacyId;
+    const nextLegacyId =
+      typeof suppliedLegacyId !== "undefined" &&
+      String(suppliedLegacyId).trim() !== ""
+        ? Number(suppliedLegacyId)
+        : await getNextLegacyId();
+
+    if (Number.isNaN(nextLegacyId)) {
+      response.status(400);
+      throw new Error("legacyId must be a valid number.");
+    }
+
     const product = await Product.create({
       ...payload,
       categoryCodes: parseCsvList(payload.categoryCodes),
       highlights: parseCsvList(payload.highlights),
       specifications: parseSpecifications(payload.specifications),
-      legacyId: Number(payload.legacyId),
+      legacyId: nextLegacyId,
       price: Number(payload.price),
       mrp: Number(payload.mrp),
       rating:
@@ -241,10 +260,6 @@ export async function updateProduct(request, response, next) {
 
     if (typeof payload.specifications !== "undefined") {
       updates.specifications = parseSpecifications(payload.specifications);
-    }
-
-    if (typeof payload.legacyId !== "undefined") {
-      updates.legacyId = Number(payload.legacyId);
     }
 
     if (typeof payload.price !== "undefined") {

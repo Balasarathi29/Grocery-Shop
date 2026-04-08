@@ -71,6 +71,32 @@ function AdminPage() {
     }));
   };
 
+  const parseSpecifications = (value) =>
+    String(value || "")
+      .split("\n")
+      .map((line) => line.trim())
+      .filter(Boolean)
+      .map((line) => {
+        const separatorIndex = line.indexOf(":");
+
+        if (separatorIndex === -1) {
+          return null;
+        }
+
+        const label = line.slice(0, separatorIndex).trim();
+        const specificationValue = line.slice(separatorIndex + 1).trim();
+
+        if (!label || !specificationValue) {
+          return null;
+        }
+
+        return {
+          label,
+          value: specificationValue,
+        };
+      })
+      .filter(Boolean);
+
   const saveProduct = async (event) => {
     event.preventDefault();
     setIsSaving(true);
@@ -78,7 +104,6 @@ function AdminPage() {
 
     try {
       const payload = {
-        legacyId: Number(productForm.legacyId),
         name: productForm.name,
         categoryCodes: productForm.categoryCodes,
         unit: productForm.unit,
@@ -89,8 +114,8 @@ function AdminPage() {
         imageUrl: productForm.imageUrl,
         inStock: productForm.inStock,
         highlights: productForm.highlights,
+        specifications: parseSpecifications(productForm.specifications),
         featuredOffer: productForm.featuredOffer,
-        offerPriority: Number(productForm.offerPriority),
       };
 
       const result = selectedProductId

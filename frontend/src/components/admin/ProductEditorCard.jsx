@@ -24,6 +24,9 @@ function ProductEditorCard({
             Add a product to the backend catalog, then decide whether it should
             appear in offers.
           </p>
+          <p className="mt-1 text-xs text-slate-500">
+            Product numbers are assigned automatically when you save a new item.
+          </p>
         </div>
         {isEditing && (
           <span className="rounded-full bg-brand-50 px-3 py-1 text-xs font-bold uppercase tracking-[0.14em] text-brand-700">
@@ -32,20 +35,13 @@ function ProductEditorCard({
         )}
       </div>
 
-      <div className="mt-5 grid gap-4 sm:grid-cols-2">
-        <Field
-          label="Legacy ID"
-          name="legacyId"
-          value={form.legacyId}
-          onChange={onChange}
-          type="number"
-          required
-        />
+      <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:gap-4">
         <Field
           label="Name"
           name="name"
           value={form.name}
           onChange={onChange}
+          className="sm:col-span-1"
           required
         />
         <Field
@@ -55,7 +51,7 @@ function ProductEditorCard({
           onChange={onChange}
           placeholder="veg, staples"
           required
-          className="sm:col-span-2"
+          className="sm:col-span-1"
         />
         <Field
           label="Unit"
@@ -64,6 +60,13 @@ function ProductEditorCard({
           onChange={onChange}
           placeholder="500 g"
           required
+        />
+        <Field
+          label="Highlights, comma separated"
+          name="highlights"
+          value={form.highlights}
+          onChange={onChange}
+          placeholder="Fresh, Local, High Protein"
         />
         <Field
           label="Price"
@@ -82,11 +85,21 @@ function ProductEditorCard({
           required
         />
         <Field
-          label="Product image URL"
-          name="imageUrl"
-          value={form.imageUrl}
+          label="Badge"
+          name="badge"
+          value={form.badge}
           onChange={onChange}
-          placeholder="https://..."
+          placeholder="New"
+        />
+        <TextArea
+          label="Specifications"
+          name="specifications"
+          value={form.specifications}
+          onChange={onChange}
+          rows={4}
+          placeholder={
+            "Add one specification per line using Label: Value\nExample: Weight: 500 g\nExample: Origin: Local"
+          }
           className="sm:col-span-2"
         />
         <TextArea
@@ -94,32 +107,17 @@ function ProductEditorCard({
           name="description"
           value={form.description}
           onChange={onChange}
-          rows={3}
+          rows={4}
           required
           className="sm:col-span-2"
         />
         <Field
-          label="Highlights, comma separated"
-          name="highlights"
-          value={form.highlights}
+          label="Product image URL"
+          name="imageUrl"
+          value={form.imageUrl}
           onChange={onChange}
-          placeholder="Fresh, Local, High Protein"
+          placeholder="https://..."
           className="sm:col-span-2"
-        />
-        <Field
-          label="Badge"
-          name="badge"
-          value={form.badge}
-          onChange={onChange}
-          placeholder="New"
-        />
-        <Field
-          label="Offer Priority"
-          name="offerPriority"
-          value={form.offerPriority}
-          onChange={onChange}
-          type="number"
-          step="1"
         />
 
         <div className="sm:col-span-2 rounded-2xl border border-slate-200 bg-slate-50 p-3">

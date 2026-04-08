@@ -1,6 +1,5 @@
 export function createEmptyProductForm() {
   return {
-    legacyId: "",
     name: "",
     categoryCodes: "",
     unit: "",
@@ -8,6 +7,7 @@ export function createEmptyProductForm() {
     mrp: "",
     description: "",
     badge: "",
+    specifications: "",
     imageUrl: "",
     inStock: true,
     highlights: "",
@@ -18,7 +18,6 @@ export function createEmptyProductForm() {
 
 export function productToForm(product) {
   return {
-    legacyId: String(product.id ?? ""),
     name: product.name || "",
     categoryCodes: Array.isArray(product.categoryIds)
       ? product.categoryIds.join(", ")
@@ -28,6 +27,16 @@ export function productToForm(product) {
     mrp: String(product.mrp ?? ""),
     description: product.description || "",
     badge: product.badge || "",
+    specifications: Array.isArray(product.specifications)
+      ? product.specifications
+          .map((specification) => {
+            const label = String(specification?.label || "").trim();
+            const value = String(specification?.value || "").trim();
+            return label && value ? `${label}: ${value}` : label || value;
+          })
+          .filter(Boolean)
+          .join("\n")
+      : "",
     imageUrl: product.imageUrl || "",
     inStock: Boolean(product.inStock),
     highlights: Array.isArray(product.highlights)
