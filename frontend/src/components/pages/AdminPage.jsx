@@ -8,7 +8,6 @@ import AdminHero from "../admin/AdminHero";
 import AdminStats from "../admin/AdminStats";
 import ProductEditorCard from "../admin/ProductEditorCard";
 import ProductLibrary from "../admin/ProductLibrary";
-import OfferControlCard from "../admin/OfferControlCard";
 import { createEmptyProductForm, productToForm } from "../admin/adminFormState";
 
 function AdminPage() {
@@ -25,11 +24,6 @@ function AdminPage() {
       catalog.allProducts
         .filter((product) => product.featuredOffer)
         .sort((a, b) => (b.offerPriority || 0) - (a.offerPriority || 0)),
-    [catalog.allProducts],
-  );
-
-  const availableProducts = useMemo(
-    () => catalog.allProducts.filter((product) => !product.featuredOffer),
     [catalog.allProducts],
   );
 
@@ -194,6 +188,29 @@ function AdminPage() {
     }
   };
 
+  const toggleDeal = async (product) => {
+    try {
+      setIsSaving(true);
+      setError("");
+      await requestJson(`/api/products/${product.id}`, {
+        method: "PATCH",
+        body: {
+          featuredDeal: !product.featuredDeal,
+        },
+      });
+      await actions.onRefreshCatalog();
+      setStatus(
+        product.featuredDeal
+          ? `${product.name} removed from Deals For You.`
+          : `${product.name} added to Deals For You.`,
+      );
+    } catch (requestError) {
+      setError(requestError.message);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <section className="relative overflow-hidden py-10 sm:py-12">
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top,_rgba(16,185,129,0.14),_transparent_30%),linear-gradient(180deg,_#f8fafc_0%,_#eef2ff_100%)]" />
@@ -239,15 +256,6 @@ function AdminPage() {
             isSaving={isSaving}
             isEditing={Boolean(selectedProductId)}
           />
-
-          <div className="w-full">
-            <OfferControlCard
-              featuredProducts={featuredProducts}
-              availableProducts={availableProducts}
-              onEditProduct={syncEditorFromProduct}
-              onToggleFeatured={toggleFeatured}
-            />
-          </div>
         </div>
 
         <div className="mt-6">
@@ -256,6 +264,7 @@ function AdminPage() {
             onEdit={syncEditorFromProduct}
             onDelete={deleteProduct}
             onToggleFeatured={toggleFeatured}
+            onToggleDeal={toggleDeal}
           />
         </div>
       </Container>

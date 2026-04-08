@@ -1,4 +1,10 @@
-function ProductLibrary({ products, onEdit, onDelete, onToggleFeatured }) {
+function ProductLibrary({
+  products,
+  onEdit,
+  onDelete,
+  onToggleFeatured,
+  onToggleDeal,
+}) {
   return (
     <div className="rounded-[2rem] border border-slate-200 bg-white p-6 shadow-soft">
       <p className="text-xs font-bold uppercase tracking-[0.18em] text-brand-700">
@@ -8,7 +14,7 @@ function ProductLibrary({ products, onEdit, onDelete, onToggleFeatured }) {
         Product Library
       </h2>
       <p className="mt-2 text-sm text-slate-600">
-        Select a product to edit, delete it, or promote it to the Offers page.
+        Manage products with separate controls for Spotlight and Deals For You.
       </p>
 
       <div className="mt-5 grid gap-4">
@@ -25,7 +31,12 @@ function ProductLibrary({ products, onEdit, onDelete, onToggleFeatured }) {
                   </h3>
                   {product.featuredOffer && (
                     <span className="rounded-full bg-orange-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-orange-700">
-                      Featured Offer
+                      Spotlight
+                    </span>
+                  )}
+                  {product.featuredDeal && (
+                    <span className="rounded-full bg-amber-100 px-2.5 py-1 text-[11px] font-bold uppercase tracking-[0.12em] text-amber-700">
+                      Deals For You
                     </span>
                   )}
                 </div>
@@ -44,8 +55,14 @@ function ProductLibrary({ products, onEdit, onDelete, onToggleFeatured }) {
                   className="rounded-xl border border-orange-200 bg-orange-50 px-3 py-2 text-xs font-semibold text-orange-700 transition hover:bg-orange-100"
                 >
                   {product.featuredOffer
-                    ? "Remove from Offers"
-                    : "Feature in Offers"}
+                    ? "Remove from Spotlight"
+                    : "Add to Spotlight"}
+                </button>
+                <button
+                  onClick={() => onToggleDeal(product)}
+                  className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-700 transition hover:bg-amber-100"
+                >
+                  {product.featuredDeal ? "Remove from Deals" : "Add to Deals"}
                 </button>
                 <button
                   onClick={() => onEdit(product)}

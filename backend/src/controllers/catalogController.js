@@ -28,6 +28,7 @@ const productToResponse = (product) => ({
   rating: product.rating,
   reviews: product.reviews,
   featuredOffer: product.featuredOffer,
+  featuredDeal: product.featuredDeal,
   offerPriority: product.offerPriority,
 });
 

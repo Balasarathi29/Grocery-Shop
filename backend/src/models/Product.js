@@ -103,6 +103,11 @@ const productSchema = new Schema(
       default: false,
       index: true,
     },
+    featuredDeal: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
     offerPriority: {
       type: Number,
       default: 0,

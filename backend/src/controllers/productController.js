@@ -22,6 +22,7 @@ const productToResponse = (product) => ({
   rating: product.rating,
   reviews: product.reviews,
   featuredOffer: product.featuredOffer,
+  featuredDeal: product.featuredDeal,
   offerPriority: product.offerPriority,
 });
 
@@ -208,6 +209,10 @@ export async function createProduct(request, response, next) {
         typeof payload.featuredOffer !== "undefined"
           ? parseBoolean(payload.featuredOffer)
           : false,
+      featuredDeal:
+        typeof payload.featuredDeal !== "undefined"
+          ? parseBoolean(payload.featuredDeal)
+          : false,
       offerPriority:
         typeof payload.offerPriority !== "undefined"
           ? Number(payload.offerPriority)
@@ -284,6 +289,10 @@ export async function updateProduct(request, response, next) {
 
     if (typeof payload.featuredOffer !== "undefined") {
       updates.featuredOffer = parseBoolean(payload.featuredOffer);
+    }
+
+    if (typeof payload.featuredDeal !== "undefined") {
+      updates.featuredDeal = parseBoolean(payload.featuredDeal);
     }
 
     if (typeof payload.offerPriority !== "undefined") {

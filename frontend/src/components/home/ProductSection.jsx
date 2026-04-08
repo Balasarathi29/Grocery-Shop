@@ -1,7 +1,7 @@
 import Container from "../layout/Container";
 import SectionTitle from "../ui/SectionTitle";
 import ProductCard from "../product/ProductCard";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../constants/navigation";
 
@@ -16,6 +16,7 @@ function ProductSection({
   isAuthenticated,
 }) {
   const navigate = useNavigate();
+  const [showAllDeals, setShowAllDeals] = useState(false);
 
   const selectedCategory = categories.find(
     (category) => category.id === selectedCategoryId,
@@ -32,17 +33,24 @@ function ProductSection({
   const topDeals = useMemo(
     () =>
       [...allProducts]
-        .filter(
-          (product) => product.mrp > product.price || product.featuredOffer,
-        )
-        .sort((a, b) => {
-          const discountA = a.mrp - a.price;
-          const discountB = b.mrp - b.price;
-          return discountB - discountA;
-        })
-        .slice(0, 4),
+        .filter((product) => product.featuredDeal)
+        .sort((a, b) => (b.offerPriority || 0) - (a.offerPriority || 0)),
     [allProducts],
   );
+
+  const visibleDeals = useMemo(
+    () => (showAllDeals ? topDeals : topDeals.slice(0, 4)),
+    [showAllDeals, topDeals],
+  );
+
+  const hasMoreDeals = topDeals.length > 4;
+
+  const handleShowMoreDeals = () => {
+    if (!hasMoreDeals) {
+      return;
+    }
+    setShowAllDeals((previous) => !previous);
+  };
 
   return (
     <section className="mt-6 py-6 sm:py-10">
@@ -53,13 +61,18 @@ function ProductSection({
               <p className="text-xs font-bold uppercase tracking-[0.13em] text-amber-800">
                 Deals For You
               </p>
-              <span className="rounded-full bg-white px-3 py-1 text-[11px] font-semibold text-amber-700">
+              <button
+                type="button"
+                onClick={handleShowMoreDeals}
+                disabled={!hasMoreDeals}
+                className="rounded-full bg-white px-3 py-1 text-[11px] font-semibold text-amber-700 transition hover:bg-amber-100 disabled:cursor-default disabled:opacity-70"
+              >
                 Save More Today
-              </span>
+              </button>
             </div>
 
             <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
-              {topDeals.map((product) => (
+              {visibleDeals.map((product) => (
                 <button
                   key={`deal-${product.id}`}
                   onClick={() => navigate(APP_ROUTES.productDetail(product.id))}
