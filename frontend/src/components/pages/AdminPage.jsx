@@ -28,6 +28,11 @@ function AdminPage() {
     [catalog.allProducts],
   );
 
+  const availableProducts = useMemo(
+    () => catalog.allProducts.filter((product) => !product.featuredOffer),
+    [catalog.allProducts],
+  );
+
   const stats = useMemo(
     () => [
       {
@@ -173,41 +178,15 @@ function AdminPage() {
         method: "PATCH",
         body: {
           featuredOffer: !product.featuredOffer,
-          offerPriority: product.featuredOffer
-            ? 0
-            : Math.max(product.offerPriority || 0, 5),
+          offerPriority: product.featuredOffer ? 0 : 1,
         },
       });
       await actions.onRefreshCatalog();
       setStatus(
         product.featuredOffer
-          ? `${product.name} removed from offers.`
-          : `${product.name} added to offers.`,
+          ? `${product.name} removed from spotlight.`
+          : `${product.name} added to spotlight.`,
       );
-    } catch (requestError) {
-      setError(requestError.message);
-    } finally {
-      setIsSaving(false);
-    }
-  };
-
-  const updateOfferPriority = async (product, delta) => {
-    try {
-      setIsSaving(true);
-      setError("");
-
-      const nextPriority = Math.max(0, (product.offerPriority || 0) + delta);
-
-      await requestJson(`/api/products/${product.id}`, {
-        method: "PATCH",
-        body: {
-          featuredOffer: true,
-          offerPriority: nextPriority,
-        },
-      });
-
-      await actions.onRefreshCatalog();
-      setStatus(`${product.name} priority updated to ${nextPriority}.`);
     } catch (requestError) {
       setError(requestError.message);
     } finally {
@@ -264,9 +243,9 @@ function AdminPage() {
           <div className="w-full">
             <OfferControlCard
               featuredProducts={featuredProducts}
+              availableProducts={availableProducts}
               onEditProduct={syncEditorFromProduct}
               onToggleFeatured={toggleFeatured}
-              onAdjustPriority={updateOfferPriority}
             />
           </div>
         </div>

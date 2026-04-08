@@ -38,7 +38,7 @@ function OffersPage() {
     })
     .slice(0, 6);
 
-  const spotlightDeals = dealCards.slice(0, 2);
+  const spotlightDeals = dealCards.filter((deal) => deal.product.featuredOffer);
 
   return (
     <section className="py-10 sm:py-12">
@@ -52,27 +52,40 @@ function OffersPage() {
 
         <OfferHeroBanner dealCount={dealCards.length} />
 
-        <div className="mt-6 grid gap-4 lg:grid-cols-2">
-          {spotlightDeals.map((deal) => (
-            <button
-              key={`spotlight-${deal.id}`}
-              onClick={() =>
-                navigate(APP_ROUTES.productDetail(deal.product.id))
-              }
-              className="rounded-2xl border border-orange-200 bg-gradient-to-r from-white to-orange-50 p-5 text-left shadow-soft transition hover:-translate-y-0.5 hover:border-orange-300"
-            >
-              <p className="text-xs font-bold uppercase tracking-[0.14em] text-orange-700">
-                Spotlight Offer
-              </p>
-              <h2 className="mt-2 text-xl font-bold text-slate-900">
-                {deal.product.name}
-              </h2>
-              <p className="mt-1 text-sm text-slate-600">{deal.product.unit}</p>
-              <p className="mt-3 text-sm font-semibold text-emerald-700">
-                Save Rs. {deal.savings} today
-              </p>
-            </button>
-          ))}
+        <div className="mt-6">
+          <div className="mb-3 flex items-center justify-between gap-3">
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-orange-700">
+              Spotlight Offers
+            </p>
+            <p className="text-xs text-slate-500">
+              {spotlightDeals.length} featured
+            </p>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+            {spotlightDeals.map((deal) => (
+              <button
+                key={`spotlight-${deal.id}`}
+                onClick={() =>
+                  navigate(APP_ROUTES.productDetail(deal.product.id))
+                }
+                className="rounded-2xl border border-orange-200 bg-gradient-to-r from-white to-orange-50 p-5 text-left shadow-soft transition hover:-translate-y-0.5 hover:border-orange-300"
+              >
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-orange-700">
+                  Spotlight Offer
+                </p>
+                <h2 className="mt-2 text-xl font-bold text-slate-900">
+                  {deal.product.name}
+                </h2>
+                <p className="mt-1 text-sm text-slate-600">
+                  {deal.product.unit}
+                </p>
+                <p className="mt-3 text-sm font-semibold text-emerald-700">
+                  Save Rs. {deal.savings} today
+                </p>
+              </button>
+            ))}
+          </div>
         </div>
 
         <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
