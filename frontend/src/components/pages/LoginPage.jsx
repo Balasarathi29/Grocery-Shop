@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import AuthPanel from "../auth/AuthPanel";
 import AuthField from "../auth/AuthField";
+import GoogleAuthButton from "../auth/GoogleAuthButton";
 import { APP_ROUTES } from "../../constants/navigation";
 import { useStorefront } from "../../context/useStorefront";
 
@@ -30,6 +31,20 @@ function LoginPage() {
 
     setError("");
     setForm({ email: "", password: "" });
+    navigate(result.user?.role === "admin" ? APP_ROUTES.ADMIN : redirectPath, {
+      replace: true,
+    });
+  };
+
+  const handleGoogleCredential = async (credential) => {
+    const result = await actions.onGoogleLogin(credential);
+
+    if (!result.ok) {
+      setError(result.message);
+      return;
+    }
+
+    setError("");
     navigate(result.user?.role === "admin" ? APP_ROUTES.ADMIN : redirectPath, {
       replace: true,
     });
@@ -85,6 +100,11 @@ function LoginPage() {
       >
         Login to Continue
       </button>
+
+      <GoogleAuthButton
+        onCredential={handleGoogleCredential}
+        onError={(message) => setError(message || "Google sign-in failed.")}
+      />
     </form>
   );
 

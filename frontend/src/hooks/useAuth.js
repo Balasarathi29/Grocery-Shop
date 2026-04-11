@@ -125,6 +125,32 @@ function useAuth() {
     setSessionUser(null);
   };
 
+  const loginWithGoogle = async (credential) => {
+    try {
+      const result = await requestJson("/api/auth/google", {
+        method: "POST",
+        body: {
+          credential,
+        },
+        auth: false,
+      });
+
+      setStoredToken(result.token || "");
+      setSessionUser(result.user || null);
+
+      return {
+        ok: true,
+        message: "Signed in with Google.",
+        user: result.user,
+      };
+    } catch (error) {
+      return {
+        ok: false,
+        message: error.message || "Google sign-in failed.",
+      };
+    }
+  };
+
   return {
     user: sessionUser,
     isAuthenticated,
@@ -132,6 +158,7 @@ function useAuth() {
     isBootstrapping,
     login,
     register,
+    loginWithGoogle,
     logout,
   };
 }

@@ -30,6 +30,12 @@ const userSchema = new Schema(
       default: "customer",
       index: true,
     },
+    googleSubject: {
+      type: String,
+      default: "",
+      trim: true,
+      index: true,
+    },
     wishlistProductIds: {
       type: [Schema.Types.ObjectId],
       ref: "Product",

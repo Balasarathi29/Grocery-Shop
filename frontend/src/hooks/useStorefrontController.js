@@ -169,6 +169,16 @@ function useStorefrontController() {
     return result;
   };
 
+  const handleGoogleLogin = async (credential) => {
+    const result = await auth.loginWithGoogle(credential);
+
+    if (result.ok) {
+      setAuthNotice("");
+    }
+
+    return result;
+  };
+
   const handleLogout = () => {
     setWishlistItems([]);
     auth.logout();
@@ -225,6 +235,7 @@ function useStorefrontController() {
       onClearCart: cart.clearCart,
       onLogin: handleLogin,
       onRegister: handleRegister,
+      onGoogleLogin: handleGoogleLogin,
       onLogout: handleLogout,
       onRefreshCatalog: refreshCatalog,
     },
