@@ -3,6 +3,8 @@ function ProductInfo({
   quantity,
   onQuantityChange,
   onAddToCart,
+  onToggleWishlist,
+  isWishlisted,
   isAuthenticated,
 }) {
   return (
@@ -52,6 +54,7 @@ function ProductInfo({
 
       <div className="flex gap-3 pt-4">
         <button
+          type="button"
           onClick={() => onAddToCart(product, quantity)}
           className={`flex-1 rounded-xl py-3 text-center text-lg font-semibold text-white transition ${
             isAuthenticated
@@ -63,8 +66,16 @@ function ProductInfo({
             ? `Add to Cart (${quantity})`
             : "Login to Add this Product"}
         </button>
-        <button className="rounded-xl border-2 border-brand-700 px-6 py-3 text-center font-semibold text-brand-700 transition hover:bg-brand-50">
-          ❤
+        <button
+          type="button"
+          onClick={onToggleWishlist}
+          className={`rounded-xl border-2 px-6 py-3 text-center font-semibold transition ${
+            isWishlisted
+              ? "border-rose-300 bg-rose-50 text-rose-600 hover:bg-rose-100"
+              : "border-brand-700 text-brand-700 hover:bg-brand-50"
+          }`}
+        >
+          {isWishlisted ? "Saved ♥" : "Wishlist ♡"}
         </button>
       </div>
 

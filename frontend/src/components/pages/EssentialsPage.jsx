@@ -6,7 +6,7 @@ import { useStorefront } from "../../context/useStorefront";
 
 function EssentialsPage() {
   const navigate = useNavigate();
-  const { auth, catalog, actions } = useStorefront();
+  const { auth, wishlist, catalog, actions } = useStorefront();
 
   return (
     <section className="py-10 sm:py-12">
@@ -46,6 +46,8 @@ function EssentialsPage() {
               key={product.id}
               product={product}
               onAddToCart={actions.onAddToCart}
+              onToggleWishlist={actions.onToggleWishlist}
+              isWishlisted={wishlist.isInWishlist(product.id)}
               isAuthenticated={auth.isAuthenticated}
             />
           ))}

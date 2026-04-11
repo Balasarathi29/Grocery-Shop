@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 function StorefrontLayout() {
   const navigate = useNavigate();
-  const { ui, auth, cart, actions } = useStorefront();
+  const { ui, auth, cart, wishlist, actions } = useStorefront();
 
   useScrollToTopOnNavigation();
 
@@ -23,6 +23,7 @@ function StorefrontLayout() {
     <div className="min-h-screen bg-stone-50 text-slate-900">
       <Navbar
         cartCount={cart.cartCount}
+        wishlistCount={wishlist.count}
         isAuthenticated={auth.isAuthenticated}
         isAdmin={auth.isAdmin}
         userName={auth.user?.fullName}

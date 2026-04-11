@@ -6,7 +6,7 @@ import ProductCard from "../product/ProductCard";
 import { useStorefront } from "../../context/useStorefront";
 
 function CategoriesPage() {
-  const { auth, catalog, actions } = useStorefront();
+  const { auth, wishlist, catalog, actions } = useStorefront();
   const [selectedCategoryId, setSelectedCategoryId] = useState("all");
 
   const filteredProducts = useMemo(() => {
@@ -87,6 +87,8 @@ function CategoriesPage() {
                   key={product.id}
                   product={product}
                   onAddToCart={actions.onAddToCart}
+                  onToggleWishlist={actions.onToggleWishlist}
+                  isWishlisted={wishlist.isInWishlist(product.id)}
                   isAuthenticated={auth.isAuthenticated}
                 />
               ))}

@@ -7,7 +7,7 @@ import { useStorefront } from "../../context/useStorefront";
 
 function HomePage() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const { auth, catalog, actions } = useStorefront();
+  const { auth, wishlist, catalog, actions } = useStorefront();
 
   const categoryFromUrl = searchParams.get("category") || "all";
 
@@ -52,6 +52,8 @@ function HomePage() {
         }
         onClearCategory={handleClearCategory}
         onAddToCart={actions.onAddToCart}
+        onToggleWishlist={actions.onToggleWishlist}
+        isInWishlist={wishlist.isInWishlist}
         isAuthenticated={auth.isAuthenticated}
       />
     </>

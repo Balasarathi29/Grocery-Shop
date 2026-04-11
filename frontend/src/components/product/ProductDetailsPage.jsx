@@ -12,7 +12,7 @@ import { useStorefront } from "../../context/useStorefront";
 function ProductDetailsPage({ product }) {
   const navigate = useNavigate();
   const location = useLocation();
-  const { auth, actions } = useStorefront();
+  const { auth, wishlist, actions } = useStorefront();
   const [quantity, setQuantity] = useState(1);
 
   const handleAddToCart = (prod, qty) => {
@@ -28,6 +28,16 @@ function ProductDetailsPage({ product }) {
     }
 
     setQuantity(1);
+  };
+
+  const handleWishlistToggle = async () => {
+    const result = await actions.onToggleWishlist(product);
+
+    if (result?.requiresAuth) {
+      navigate(APP_ROUTES.LOGIN, {
+        state: { from: `${location.pathname}${location.search}` },
+      });
+    }
   };
 
   return (
@@ -47,6 +57,8 @@ function ProductDetailsPage({ product }) {
             quantity={quantity}
             onQuantityChange={setQuantity}
             onAddToCart={handleAddToCart}
+            onToggleWishlist={handleWishlistToggle}
+            isWishlisted={wishlist.isInWishlist(product.id)}
             isAuthenticated={auth.isAuthenticated}
           />
         </div>

@@ -30,6 +30,11 @@ const userSchema = new Schema(
       default: "customer",
       index: true,
     },
+    wishlistProductIds: {
+      type: [Schema.Types.ObjectId],
+      ref: "Product",
+      default: [],
+    },
   },
   {
     timestamps: true,

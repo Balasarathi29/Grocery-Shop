@@ -4,6 +4,7 @@ import { APP_ROUTES, desktopNavItems } from "../../constants/navigation";
 
 function Navbar({
   cartCount,
+  wishlistCount,
   isAuthenticated,
   isAdmin,
   userName,
@@ -14,6 +15,7 @@ function Navbar({
   const location = useLocation();
 
   const isCartActive = location.pathname === APP_ROUTES.CART;
+  const isWishlistActive = location.pathname === APP_ROUTES.WISHLIST;
 
   return (
     <header className="sticky top-0 z-40 border-b border-brand-100/70 bg-stone-50/95 backdrop-blur">
@@ -101,6 +103,17 @@ function Navbar({
             aria-label="Open cart page"
           >
             Cart ({cartCount})
+          </button>
+          <button
+            onClick={() => navigate(APP_ROUTES.WISHLIST)}
+            className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
+              isWishlistActive
+                ? "bg-rose-600 text-white"
+                : "border border-rose-200 bg-rose-50 text-rose-700 hover:bg-rose-100"
+            }`}
+            aria-label="Open wishlist page"
+          >
+            Wishlist ({wishlistCount})
           </button>
         </div>
       </Container>

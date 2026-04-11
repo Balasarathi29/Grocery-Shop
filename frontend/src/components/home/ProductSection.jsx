@@ -13,6 +13,8 @@ function ProductSection({
   categoryContent,
   onClearCategory,
   onAddToCart,
+  onToggleWishlist,
+  isInWishlist,
   isAuthenticated,
 }) {
   const navigate = useNavigate();
@@ -128,6 +130,8 @@ function ProductSection({
                 key={product.id}
                 product={product}
                 onAddToCart={onAddToCart}
+                onToggleWishlist={onToggleWishlist}
+                isWishlisted={isInWishlist(product.id)}
                 isAuthenticated={isAuthenticated}
               />
             ))}

@@ -1,7 +1,13 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { APP_ROUTES } from "../../constants/navigation";
 
-function ProductCard({ product, onAddToCart, isAuthenticated }) {
+function ProductCard({
+  product,
+  onAddToCart,
+  onToggleWishlist,
+  isWishlisted,
+  isAuthenticated,
+}) {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -23,9 +29,33 @@ function ProductCard({ product, onAddToCart, isAuthenticated }) {
     }
   };
 
+  const handleWishlistToggle = async () => {
+    const result = await onToggleWishlist(product);
+
+    if (result?.requiresAuth) {
+      navigate(APP_ROUTES.LOGIN, {
+        state: { from: `${location.pathname}${location.search}` },
+      });
+    }
+  };
+
   return (
-    <article className="group rounded-2xl border border-brand-100 bg-white p-4 shadow-soft transition hover:-translate-y-1 hover:shadow-xl">
+    <article className="group relative rounded-2xl border border-brand-100 bg-white p-4 shadow-soft transition hover:-translate-y-1 hover:shadow-xl">
       <button
+        type="button"
+        onClick={handleWishlistToggle}
+        className={`absolute right-6 top-6 z-10 rounded-full border px-2.5 py-1 text-sm font-semibold transition ${
+          isWishlisted
+            ? "border-rose-300 bg-rose-50 text-rose-600"
+            : "border-slate-200 bg-white/95 text-slate-500 hover:border-rose-200 hover:text-rose-500"
+        }`}
+        aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+      >
+        {isWishlisted ? "♥" : "♡"}
+      </button>
+
+      <button
+        type="button"
         onClick={openProduct}
         className="mb-4 block h-28 w-full overflow-hidden rounded-2xl bg-gradient-to-br"
       >
@@ -51,6 +81,7 @@ function ProductCard({ product, onAddToCart, isAuthenticated }) {
         {product.badge}
       </p>
       <button
+        type="button"
         onClick={openProduct}
         className="mb-2 line-clamp-2 text-base font-bold text-slate-900 text-left transition hover:text-brand-700"
       >
@@ -73,6 +104,7 @@ function ProductCard({ product, onAddToCart, isAuthenticated }) {
       </div>
 
       <button
+        type="button"
         onClick={handleAddToCart}
         className={`mt-4 w-full rounded-xl py-2.5 text-sm font-semibold text-white transition ${
           isAuthenticated
