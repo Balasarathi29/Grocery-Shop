@@ -51,15 +51,13 @@ function LoginPage() {
   };
 
   const formContent = (
-    <form onSubmit={handleSubmit}>
-      <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Login</h2>
-      <p className="mt-1 text-sm text-slate-600">
-        Access your account to add products into cart.
-      </p>
-
-      <p className="mt-2 rounded-xl border border-emerald-200 bg-emerald-50 px-3 py-2 text-xs font-medium text-emerald-800">
-        Authentication is validated by the backend.
-      </p>
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div>
+        <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Login</h2>
+        <p className="mt-1 text-sm text-slate-600">
+          Access your account to pick up where you left off.
+        </p>
+      </div>
 
       {auth.notice && (
         <p className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-800">
@@ -73,7 +71,7 @@ function LoginPage() {
         </p>
       )}
 
-      <div className="mt-5 grid gap-4">
+      <div className="grid gap-4">
         <AuthField
           label="Email"
           name="email"
@@ -96,7 +94,7 @@ function LoginPage() {
 
       <button
         type="submit"
-        className="mt-5 w-full rounded-xl bg-brand-700 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-800"
+        className="w-full rounded-xl bg-brand-700 py-3 text-sm font-semibold text-white transition hover:bg-brand-800 focus:outline-none focus:ring-2 focus:ring-brand-300 focus:ring-offset-2"
       >
         Login to Continue
       </button>

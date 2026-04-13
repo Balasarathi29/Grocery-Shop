@@ -54,15 +54,16 @@ function RegisterPage() {
   };
 
   const formContent = (
-    <form onSubmit={handleSubmit}>
-      <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">Register</h2>
-      <p className="mt-1 text-sm text-slate-600">
-        Create an account to start adding items to your cart.
-      </p>
-
-      <p className="mt-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-medium text-amber-800">
-        Account creation is handled by backend user APIs.
-      </p>
+    <form onSubmit={handleSubmit} className="space-y-5">
+      <div>
+        <h2 className="text-xl font-bold text-slate-900 sm:text-2xl">
+          Register
+        </h2>
+        <p className="mt-1 text-sm text-slate-600">
+          Create your account to save details, speed up checkout, and track
+          orders.
+        </p>
+      </div>
 
       {error && (
         <p className="mt-4 rounded-xl border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700">
@@ -70,7 +71,7 @@ function RegisterPage() {
         </p>
       )}
 
-      <div className="mt-5 grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2">
         <AuthField
           label="Full Name"
           name="fullName"
@@ -109,7 +110,7 @@ function RegisterPage() {
 
       <button
         type="submit"
-        className="mt-5 w-full rounded-xl bg-brand-700 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-800"
+        className="w-full rounded-xl bg-brand-700 py-3 text-sm font-semibold text-white transition hover:bg-brand-800 focus:outline-none focus:ring-2 focus:ring-brand-300 focus:ring-offset-2"
       >
         Create Account
       </button>

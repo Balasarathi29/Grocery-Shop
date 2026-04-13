@@ -9,36 +9,26 @@ import { hashPassword } from "../utils/password.js";
 dotenv.config();
 
 async function ensureAdminUser() {
-  const adminEmail = (process.env.ADMIN_EMAIL || "admin@freshshelf.local")
+  const adminEmail = (process.env.ADMIN_EMAIL || "jothi@gmail.com")
     .trim()
     .toLowerCase();
-  const adminPassword = process.env.ADMIN_PASSWORD || "Admin@12345";
-  const adminFullName = process.env.ADMIN_FULL_NAME || "FreshShelf Admin";
-  const adminPhone = process.env.ADMIN_PHONE || "+91 90000 00000";
+  const adminPassword = process.env.ADMIN_PASSWORD || "Jothi@123";
+  const adminFullName = process.env.ADMIN_FULL_NAME || "Jothi Chandran";
+  const adminPhone = process.env.ADMIN_PHONE || "+91 9789755049";
 
-  const existingAdmin = await User.findOne({ email: adminEmail });
-
-  if (!existingAdmin) {
-    await User.create({
-      fullName: adminFullName,
-      email: adminEmail,
-      phone: adminPhone,
-      passwordHash: hashPassword(adminPassword),
-      role: "admin",
-    });
-
-    return;
-  }
-
-  const update = {
-    role: "admin",
-  };
-
-  if (!existingAdmin.passwordHash) {
-    update.passwordHash = hashPassword(adminPassword);
-  }
-
-  await User.updateOne({ _id: existingAdmin._id }, update);
+  await User.updateOne(
+    { email: adminEmail },
+    {
+      $set: {
+        fullName: adminFullName,
+        email: adminEmail,
+        phone: adminPhone,
+        passwordHash: hashPassword(adminPassword),
+        role: "admin",
+      },
+    },
+    { upsert: true },
+  );
 }
 
 export async function seedDatabase() {
